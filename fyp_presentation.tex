@@ -1,0 +1,528 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Imperial College London Presentation
+% Final Year Project presentation deck
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%!TEX program = xelatex
+
+\documentclass[
+	aspectratio=169,
+	t,
+	onlytextwidth,
+	10pt,
+]{beamer}
+
+\providecommand{\insertaspectratio}{169}
+
+\usetheme{Imperial}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\graphicspath{{Images/}{Images/fyp/}}
+
+\title{Sonar-Based Underwater SLAM with 3D Gaussian Splatting Mapping}
+\subtitle{Online-render map-pose registration for Pose3 correction}
+\author{Saxon Shang}
+\date{Final Year Project Presentation}
+
+\newcommand{\tightvspace}{\vspace{1.5mm}}
+\newcommand{\storycard}[4]{%
+	\begingroup
+	\setlength{\fboxsep}{3.4pt}%
+	\noindent\fcolorbox{#2}{#1}{%
+		\begin{minipage}{0.94\linewidth}
+			\setlength{\parskip}{0pt}%
+			{\color{#2}\scriptsize\textbf{#3}}\par\vspace{0.4mm}
+			{\color{ICLDarkBlue}\footnotesize #4}
+		\end{minipage}
+	}%
+	\endgroup
+}
+
+\begin{document}
+
+%------------------------------------------------
+% Title
+%------------------------------------------------
+
+\begingroup
+	\setbeamercolor{background canvas}{bg=ICLBlue}
+	\setbeamercolor{title page title}{fg=white}
+	\setbeamercolor{title page subtitle}{fg=white}
+	\setbeamercolor{author}{fg=white}
+	\setbeamercolor{date}{fg=white}
+	\setbeamertemplate{title page}[logo]{ICL_Logo_White.pdf}
+	\frame[plain, s]{\titlepage}
+\endgroup
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Why Underwater Sonar SLAM Is Hard}
+	\framesubtitle{Can a renderable sonar map provide online correction factors?}
+
+	\begin{columns}[T]
+		\begin{column}{0.47\textwidth}
+			\storycard{ICLBlue!6}{ICLBlue}{1. Problem setting}
+			{Underwater robots cannot use GNSS. IMU/DVL odometry therefore drifts over time.}
+
+			\vspace{1.8mm}
+			\storycard{ICLBlue!6}{ICLBlue}{2. Sensor limitation}
+			{Sonar works underwater, but the image evidence is sparse, ambiguous, and viewpoint-dependent.}
+
+			\vspace{1.8mm}
+			\storycard{ICLBlue!6}{ICLBlue}{3. Classical SLAM limitation}
+			{Geometric matching becomes fragile under sonar noise and repeated acoustic structure.}
+		\end{column}
+		\begin{column}{0.47\textwidth}
+			\storycard{ICLCream}{ICLBlue}{4. Key insight from 3DGS}
+			{A learned Gaussian scene can predict the sonar view from a candidate pose.}
+
+			\vspace{1.8mm}
+			\storycard{ICLCream}{ICLBlue}{5. Gap}
+			{3DGS is rarely used as an online sonar measurement model inside SLAM.}
+
+			\vspace{1.8mm}
+			\storycard{ICLCream}{ICLBlue}{6. Project idea}
+			{Use render consistency between live sonar and NAS-GS prediction as a Pose3 SLAM constraint.}
+		\end{column}
+	\end{columns}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{NAS-GS: Noise-Aware Sonar Gaussian Splatting}
+	\framesubtitle{A renderable soanr measurement model}
+
+	\begin{columns}[T]
+		\begin{column}{0.58\textwidth}
+			\vspace{-1mm}
+			\begin{center}
+				\includegraphics[width=\linewidth]{nasgs_pipeline_overview.png}
+
+				\vspace{0.5mm}
+				{\scriptsize NAS-GS training pipeline, adapted from Xu et al.}
+			\end{center}
+		\end{column}
+		\begin{column}{0.38\textwidth}
+			{\large\textbf{What NAS-GS does}}
+
+			\vspace{1mm}
+			\begin{itemize}
+				\setlength{\itemsep}{1.4mm}
+				\footnotesize
+				\item Learns a 3D Gaussian sonar scene from polar sonar images.
+				\item Optimises rendered structure together with acoustic noise appearance.
+				\item Produces a differentiable sonar renderer for new viewpoints.
+			\end{itemize}
+
+			\vspace{2mm}
+			{\large\textbf{How I use it}}
+
+			\vspace{1mm}
+			\begin{itemize}
+				\setlength{\itemsep}{1.4mm}
+				\footnotesize
+				\item Freeze the trained map during replay.
+				\item Render candidate Pose3 hypotheses online.
+				\item Insert a factor only when live sonar and render agree.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Render Consistency As A Pose3 Factor}
+	\framesubtitle{NAS-GS predicts observations; iSAM2 consumes accepted constraints}
+
+	\begin{center}
+		\small
+		\textbf{Online loop:}
+		render from the map, compare with the live frame, then add a graph factor only when the evidence is strong.
+	\end{center}
+
+	\vspace{1.5mm}
+
+	\begin{columns}[T]
+		\begin{column}{0.31\textwidth}
+			\storycard{ICLBlue!6}{ICLBlue}{Renderable sonar map}
+			{NAS-GS predicts what the sonar should observe from a proposed Pose3 camera pose.}
+
+			\vspace{2mm}
+			\begin{center}
+				\includegraphics[width=0.92\linewidth,height=0.28\textheight,keepaspectratio]{slide_render_consistency_sonar_map.png}
+			\end{center}
+		\end{column}
+		\begin{column}{0.31\textwidth}
+			\storycard{ICLBlue!6}{ICLBlue}{Online evidence}
+			{A live sonar frame is compared against rendered candidates around the current drifted pose.}
+
+			\vspace{2mm}
+			\begin{center}
+				\includegraphics[width=0.92\linewidth,height=0.28\textheight,keepaspectratio]{slide_render_consistency_live_sonar.png}
+			\end{center}
+		\end{column}
+		\begin{column}{0.31\textwidth}
+			\storycard{ICLBlue!6}{ICLBlue}{Graph correction}
+			{If render similarity and gates pass, the recovered pose is inserted as a Pose3 factor.}
+
+			\vspace{2mm}
+			\begin{center}
+				\includegraphics[width=0.92\linewidth,height=0.28\textheight,keepaspectratio]{slide_render_consistency_corrected_graph.png}
+			\end{center}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Simulation Platform: DAVE In Docker}
+	\framesubtitle{Repeatable sonar, IMU, DVL, and ground-truth recording}
+
+	\begin{columns}[T]
+		\begin{column}{0.44\textwidth}
+			{\normalsize\textbf{Docker setting and robot model}}
+			\vspace{0.8mm}
+			\begin{itemize}
+				\setlength{\itemsep}{1.0mm}
+				\scriptsize
+				\item CUDA-enabled Docker container.
+				\item DAVE with ROS Noetic and Gazebo.
+				\item BlueROV2 vehicle model.
+				\item Sensors recorded: sonar, IMU, DVL, odometry, and ground truth.
+			\end{itemize}
+
+			\vspace{3mm}
+			{\normalsize\textbf{Custom scene description}}
+			\vspace{0.8mm}
+			\begin{itemize}
+				\setlength{\itemsep}{1.0mm}
+				\scriptsize
+				\item A fixed underwater target structure creates repeatable sonar returns.
+				\item Pass A, Pass A revisit, and Pass B use controlled waypoint routes.
+				\item Sonar field of view, range, beam pattern, and noise are explicitly set.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.52\textwidth}
+			\begin{center}
+				\includegraphics[width=0.48\linewidth,height=0.25\textheight,keepaspectratio]{dave_gazebo_scene_overview.jpg}
+				\hfill
+				\includegraphics[width=0.48\linewidth,height=0.25\textheight,keepaspectratio]{dave_gazebo_target_scene.jpg}
+
+				\vspace{3mm}
+				\includegraphics[width=0.70\linewidth,height=0.29\textheight,keepaspectratio]{dave_gazebo_recording_vehicle.jpg}
+			\end{center}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Pass A Map Recording And Revisit Path}
+	\framesubtitle{Pass A trains the NAS-GS map; Pass B reuses the start point but follows a harder revisit path}
+
+	\vspace{-1mm}
+	\begin{columns}[T]
+		\begin{column}{0.64\textwidth}
+			\begin{center}
+				\includegraphics[width=\linewidth,height=0.73\textheight,keepaspectratio]{passA_passB_route_top_view_slidecrop.png}
+			\end{center}
+		\end{column}
+		\begin{column}{0.32\textwidth}
+			\begin{center}
+				\includegraphics[width=\linewidth,height=0.73\textheight,keepaspectratio]{appendix_passA_recorded_sonar_contact_sheet.png}
+			\end{center}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{From Simulated Geometry To NAS-GS Map}
+	\framesubtitle{The learned map is sonar-visible structure, not a full CAD reconstruction}
+
+	\vspace{-1mm}
+	{\footnotesize
+	The two rows use the same top, side, and oblique projections. They differ because the DAVE row shows the full simulated target geometry, while the NAS-GS row shows Gaussian centres learned only from sonar-visible acoustic returns.
+	}
+
+	\vspace{1mm}
+	\begin{center}
+		\includegraphics[width=0.99\textwidth,height=0.69\textheight,keepaspectratio]{passA_dave_vs_nasgs_sixpanel_slide.png}
+	\end{center}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Online-render Registration Backbone}
+	\framesubtitle{Same online loop for same-route correction and revisit correction}
+
+	\vspace{1mm}
+	\begin{center}
+		\begin{tikzpicture}[
+			box/.style={draw=ICLBlue, fill=ICLBlue!7, rounded corners=2pt, align=center, minimum height=1.05cm, text width=2.05cm, font=\scriptsize},
+			arrow/.style={->, line width=0.9pt, draw=ICLBlue},
+			node distance=0.42cm
+		]
+			\node[box] (live) at (0,0) {Live replay\\sonar + Pose3};
+			\node[box] (cand) at (2.35,0) {Candidate\\poses};
+			\node[box] (render) at (4.70,0) {NAS-GS\\render};
+			\node[box] (score) at (7.05,0) {Score\\and gate};
+			\node[box] (factor) at (9.40,0) {Pose3\\factor};
+			\node[box] (graph) at (11.75,0) {iSAM2\\update};
+			\draw[arrow] (live) -- (cand);
+			\draw[arrow] (cand) -- (render);
+			\draw[arrow] (render) -- (score);
+			\draw[arrow] (score) -- (factor);
+			\draw[arrow] (factor) -- (graph);
+		\end{tikzpicture}
+	\end{center}
+
+	\vspace{3mm}
+	\begin{columns}[T]
+		\begin{column}{0.44\textwidth}
+			\storycard{ICLBlue!6}{ICLBlue}{Local single}
+			{Compact \(x,y,z,\psi\) search around the live Pose3 baseline. Main same-route policy for Pass A and offshore replay.}
+		\end{column}
+		\begin{column}{0.44\textwidth}
+			\storycard{ICLCream}{ICLBlue}{Route-progress revisit}
+			{Sequence render search guided by route progress and drift-prior checks. Used for revisit cases such as Pass B.}
+		\end{column}
+	\end{columns}
+
+	\vspace{3mm}
+	{\footnotesize
+	Gating is separate from the mode. Relaxed gating accepts useful factors earlier, while score and structure checks still prevent weak render matches from entering the graph.
+	}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Algorithm}
+	\framesubtitle{Candidate poses are searched first; the graph is changed only after gating}
+
+	\begin{columns}[T]
+		\begin{column}{0.47\textwidth}
+			{\large\textbf{Candidate poses}}
+			\vspace{1mm}
+			\begin{itemize}
+				\setlength{\itemsep}{1.6mm}
+				\footnotesize
+				\item Start from the live IMU/DVL Pose3 estimate.
+				\item Sample small corrections in \(x,y,z\) and yaw.
+				\item Local mode searches a compact recoverable basin.
+				\item Revisit mode uses a wider sequence proposal guided by route progress and drift prior.
+				\item A candidate is always a possible robot pose. The NAS-GS map is only used to render evidence.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.47\textwidth}
+			{\large\textbf{Score and gate}}
+			\vspace{1mm}
+			\begin{itemize}
+				\setlength{\itemsep}{1.6mm}
+				\footnotesize
+				\item Each candidate is rendered by the fixed NAS-GS map.
+				\item Image score combines NCC-style similarity with error after intensity normalisation.
+				\item Structure score checks that bright sonar returns and rendered returns overlap.
+				\item Gates reject low score, weak structure, excessive pose jump, and unstable sequence support.
+				\item The best passing candidate provides the Pose3 factor pose and covariance.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+
+	\vspace{4mm}
+	\begin{center}
+		\footnotesize
+		The key design choice is conservative evidence: a render match can correct drift, but a failed match does not damage the pose graph.
+	\end{center}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Live Replay Implementation}
+	\framesubtitle{The same replay path is used for synthetic and offshore validation}
+
+	\begin{center}
+		\includegraphics[width=0.94\textwidth]{ros_live_replay_pipeline.png}
+	\end{center}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Experimental Design}
+	\framesubtitle{Three increasingly difficult operating cases}
+
+	\begin{table}
+		\small
+		\begin{tabular}{@{}p{0.23\textwidth}p{0.33\textwidth}p{0.33\textwidth}@{}}
+			\toprule
+			Case & Purpose & Sonar setting \\
+			\midrule
+			Pass A & Same-route correction on the trained DAVE map & \(90^\circ\) field of view, 20 m range \\
+			Pass A revisit & Same-route revisit with a newly recorded trajectory & \(90^\circ\), 20 m \\
+			Pass B revisit & Hard revisit around the scene in a different direction & \(90^\circ\), 20 m \\
+			Offshore & Real-scene style validation on the 151216 dataset & \(120^\circ\), 12 m \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+
+	\vspace{4mm}
+	The baseline is the IMU/DVL Pose3 replay. The corrected result is the same backend after NAS-GS registration factors are inserted.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Pass A Result}
+	\framesubtitle{The same-route case shows the strongest online-render correction}
+
+	\begin{center}
+		\includegraphics[width=0.87\textwidth]{passA_current_online_render_3d.png}
+	\end{center}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Pass A Policy Selection}
+	\framesubtitle{Rendered BP library with runtime no-BP was the most reliable local policy}
+
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{passA_bp_vs_nobp_online_render_comparison.png}
+	\end{center}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Offshore Validation}
+	\framesubtitle{The method transfers, but the real-scene case exposes z and appearance limits}
+
+	\begin{center}
+		\includegraphics[width=0.87\textwidth]{offshore_current_online_render_3d.png}
+	\end{center}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{BP versus no-BP on Offshore Data}
+	\framesubtitle{The better rendering mode depends on the recorded sonar appearance}
+
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{offshore_bp_vs_nobp_online_render_comparison.png}
+	\end{center}
+
+	\vspace{-1mm}
+	\small
+	Pass A is cleaner and benefits from the rendered BP library even when runtime BP is disabled. Offshore data contains stronger real-image artefacts, so BP/no-BP behaviour is less interchangeable.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Revisit Baselines}
+	\framesubtitle{Pass A revisit is same-route; Pass B is harder because the route direction changes}
+
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{passA_passA_revisit_baseline_overlay.png}
+	\end{center}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Route-progress Revisit Mode}
+	\framesubtitle{Sequence evidence is used before a revisit factor is accepted}
+
+	\begin{center}
+		\includegraphics[width=0.88\textwidth]{passB_route_progress_policy_pipeline.png}
+	\end{center}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Revisit Result}
+	\framesubtitle{The revisit policy improves the hard case conservatively}
+
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{route_progress_revisit_results.png}
+	\end{center}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{What The Results Show}
+
+	\begin{columns}[T]
+		\begin{column}{0.47\textwidth}
+			\textbf{Strengths}
+			\begin{itemize}
+				\item Local same-route correction works.
+				\item The pipeline runs as a live replay.
+				\item Offshore validation shows real-scene relevance.
+				\item Render evidence gives interpretable factor placement.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.47\textwidth}
+			\textbf{Limits}
+			\begin{itemize}
+				\item Sonar ambiguity can accept visually plausible but wrong candidates.
+				\item z correction is sensitive to rendering and trajectory priors.
+				\item Hard revisit remains limited without stronger sequence geometry.
+				\item Render-server geometry must match the sonar dataset.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Conclusion}
+
+	\Large
+	This project demonstrates an online-render SLAM correction system.
+
+	\vspace{5mm}
+	\normalsize
+	The main result is that a NAS-GS sonar map can provide useful Pose3 registration factors when the live sonar appearance, render geometry, and search basin are aligned.
+
+	\vspace{4mm}
+	The main limitation is revisit robustness. The next step is a stronger sequence-level solver that estimates smooth candidate paths rather than accepting isolated frame evidence.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}[plain]
+	\setbeamercolor{background canvas}{bg=ICLBlue}
+	\vspace{14mm}
+	\begin{center}
+		\includegraphics[width=45mm]{ICL_Logo_White.pdf}
+
+		\vspace{12mm}
+		{\color{white}\Huge Thank you}
+
+		\vspace{4mm}
+		{\color{white}\Large Questions?}
+	\end{center}
+\end{frame}
+
+\end{document}
