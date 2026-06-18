@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2026.6.17)  17 JUN 2026 21:25
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2026.6.17)  18 JUN 2026 19:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1285,105 +1285,164 @@ perialSansText(0)/m/it/8 search around the live Pose3
 
 [8
 
-]
-Overfull \vbox (0.86116pt too high) detected at line 351
- []
-
-[9
+] [9
 
 ]
-File: Images/fyp//ros_live_replay_pipeline.png Graphic file (type bmp)
-<Images/fyp//ros_live_replay_pipeline.png>
+File: Images/fyp//slide_render_consistency_sonar_map.png Graphic file (type bmp
+)
+<Images/fyp//slide_render_consistency_sonar_map.png>
 
-Overfull \vbox (55.97144pt too high) detected at line 362
+Overfull \vbox (12.52367pt too high) detected at line 432
  []
 
 [10
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 386--386
-[]|\TU/ImperialSansText(0)/m/it/9 Same-route revisit with a newly
- []
+File: Images/fyp//slide_render_consistency_live_sonar.png Graphic file (type bm
+p)
+<Images/fyp//slide_render_consistency_live_sonar.png>
+File: Images/fyp//slide_render_consistency_sonar_map.png Graphic file (type bmp
+)
+<Images/fyp//slide_render_consistency_sonar_map.png>
+File: Images/fyp//slide_score_reject_live.png Graphic file (type bmp)
+<Images/fyp//slide_score_reject_live.png>
+File: Images/fyp//slide_score_reject_render.png Graphic file (type bmp)
+<Images/fyp//slide_score_reject_render.png>
 
-
-Underfull \hbox (badness 3049) in paragraph at lines 386--386
-[]|\TU/ImperialSansText(0)/m/it/9 Real-scene style validation on the
+Overfull \vbox (2.8443pt too high) detected at line 486
  []
 
 [11
 
 ]
-File: Images/fyp//passA_current_online_render_3d.png Graphic file (type bmp)
-<Images/fyp//passA_current_online_render_3d.png>
+Underfull \hbox (badness 3375) in paragraph at lines 528--528
+[]\TU/ImperialSansText(0)/m/it/8 The graph contains IMU/DVL odometry
+ []
 
-Overfull \vbox (51.05618pt too high) detected at line 397
+
+Underfull \hbox (badness 2368) in paragraph at lines 528--528
+\TU/ImperialSansText(0)/m/it/8 factors, so drift accumulates along the
  []
 
 [12
+
+] [13
+
+] [14
 
 ]
 File: Images/fyp//passA_bp_vs_nobp_online_render_comparison.png Graphic file (t
 ype bmp)
 <Images/fyp//passA_bp_vs_nobp_online_render_comparison.png>
- [13
+ [15
 
 ]
-File: Images/fyp//offshore_current_online_render_3d.png Graphic file (type bmp)
-
-<Images/fyp//offshore_current_online_render_3d.png>
-
-Overfull \vbox (51.02017pt too high) detected at line 419
+Underfull \hbox (badness 4467) in paragraph at lines 667--667
+[]\TU/ImperialSansText(0)/m/it/8 Live sonar frame from the DAVE
  []
 
-[14
+File: Images/fyp//passA_evidence_live_frame216.png Graphic file (type bmp)
+<Images/fyp//passA_evidence_live_frame216.png>
+
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 667--667
+[][][] 
+ []
+
+
+Underfull \hbox (badness 1838) in paragraph at lines 667--667
+[]\TU/ImperialSansText(0)/m/it/8 Reference image from the trained
+ []
+
+File: Images/fyp//passA_evidence_rendered_bp_frame216.png Graphic file (type bm
+p)
+<Images/fyp//passA_evidence_rendered_bp_frame216.png>
+
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 667--667
+[][][] 
+ []
+
+File: Images/fyp//passA_evidence_rendered_nobp_frame216.png Graphic file (type 
+bmp)
+<Images/fyp//passA_evidence_rendered_nobp_frame216.png>
+
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 667--667
+[][][] 
+ []
+
+[16
+
+]
+File: Images/fyp//passA_current_online_render_3d.png Graphic file (type bmp)
+<Images/fyp//passA_current_online_render_3d.png>
+ [17
 
 ]
 File: Images/fyp//offshore_bp_vs_nobp_online_render_comparison.png Graphic file
  (type bmp)
 <Images/fyp//offshore_bp_vs_nobp_online_render_comparison.png>
+ [18
 
-Overfull \vbox (24.40514pt too high) detected at line 434
+]
+File: Images/fyp//offshore_evidence_live_frame517.png Graphic file (type bmp)
+<Images/fyp//offshore_evidence_live_frame517.png>
+
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 721--721
+[][][] 
  []
 
-[15
+File: Images/fyp//offshore_evidence_rendered_bp_frame517.png Graphic file (type
+ bmp)
+<Images/fyp//offshore_evidence_rendered_bp_frame517.png>
+
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 721--721
+[][][] 
+ []
+
+File: Images/fyp//offshore_evidence_rendered_nobp_frame517.png Graphic file (ty
+pe bmp)
+<Images/fyp//offshore_evidence_rendered_nobp_frame517.png>
+
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 721--721
+[][][] 
+ []
+
+[19
+
+]
+File: Images/fyp//offshore_current_online_render_3d.png Graphic file (type bmp)
+
+<Images/fyp//offshore_current_online_render_3d.png>
+ [20
 
 ]
 File: Images/fyp//passA_passA_revisit_baseline_overlay.png Graphic file (type b
 mp)
 <Images/fyp//passA_passA_revisit_baseline_overlay.png>
 
-Overfull \vbox (44.27426pt too high) detected at line 445
+Overfull \vbox (44.27426pt too high) detected at line 743
  []
 
-[16
-
-]
-File: Images/fyp//passB_route_progress_policy_pipeline.png Graphic file (type b
-mp)
-<Images/fyp//passB_route_progress_policy_pipeline.png>
-
-Overfull \vbox (6.04335pt too high) detected at line 456
- []
-
-[17
+[21
 
 ]
 File: Images/fyp//route_progress_revisit_results.png Graphic file (type bmp)
 <Images/fyp//route_progress_revisit_results.png>
 
-Overfull \vbox (37.20401pt too high) detected at line 467
+Overfull \vbox (37.20401pt too high) detected at line 754
  []
 
-[18
+[22
 
-] [19
+] [23
 
-] [20
+] [24
+
+] [25
 
 ]
 File: Images//ICL_Logo_White.pdf Graphic file (type pdf)
 <use Images//ICL_Logo_White.pdf>
- [21
+ [26
 
 ]
 \tf@nav=\write6
@@ -1400,12 +1459,12 @@ Package rerunfilecheck Info: File `fyp_presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 27410 strings out of 478190
- 596755 string characters out of 5854827
- 885929 words of memory out of 5000000
- 47390 multiletter control sequences out of 15000+600000
- 477405 words of font info for 107 fonts, out of 8000000 for 9000
+ 27691 strings out of 478190
+ 603421 string characters out of 5854827
+ 935097 words of memory out of 5000000
+ 47671 multiletter control sequences out of 15000+600000
+ 475852 words of font info for 100 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 99i,13n,104p,405b,813s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 99i,13n,104p,405b,1099s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on fyp_presentation.xdv (21 pages, 154376 bytes).
+Output written on fyp_presentation.xdv (26 pages, 281576 bytes).

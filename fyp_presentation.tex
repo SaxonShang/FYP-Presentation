@@ -311,89 +311,320 @@
 %------------------------------------------------
 
 \begin{frame}
-	\frametitle{Algorithm}
-	\framesubtitle{Candidate poses are searched first; the graph is changed only after gating}
+	\frametitle{Algorithm Step 1: Live Replay System}
+	\framesubtitle{Topics are replayed, subscribed, rendered, and fused as Pose3 factors}
 
-	\begin{columns}[T]
-		\begin{column}{0.47\textwidth}
-			{\large\textbf{Candidate poses}}
-			\vspace{1mm}
-			\begin{itemize}
-				\setlength{\itemsep}{1.6mm}
-				\footnotesize
-				\item Start from the live IMU/DVL Pose3 estimate.
-				\item Sample small corrections in \(x,y,z\) and yaw.
-				\item Local mode searches a compact recoverable basin.
-				\item Revisit mode uses a wider sequence proposal guided by route progress and drift prior.
-				\item A candidate is always a possible robot pose. The NAS-GS map is only used to render evidence.
-			\end{itemize}
-		\end{column}
-		\begin{column}{0.47\textwidth}
-			{\large\textbf{Score and gate}}
-			\vspace{1mm}
-			\begin{itemize}
-				\setlength{\itemsep}{1.6mm}
-				\footnotesize
-				\item Each candidate is rendered by the fixed NAS-GS map.
-				\item Image score combines NCC-style similarity with error after intensity normalisation.
-				\item Structure score checks that bright sonar returns and rendered returns overlap.
-				\item Gates reject low score, weak structure, excessive pose jump, and unstable sequence support.
-				\item The best passing candidate provides the Pose3 factor pose and covariance.
-			\end{itemize}
-		\end{column}
-	\end{columns}
-
-	\vspace{4mm}
+	\vspace{-1mm}
 	\begin{center}
-		\footnotesize
-		The key design choice is conservative evidence: a render match can correct drift, but a failed match does not damage the pose graph.
+		\begin{tikzpicture}[
+			pub/.style={draw=ICLBlue, fill=ICLBlue!7, rounded corners=2pt, align=center, minimum height=0.78cm, text width=1.75cm, font=\scriptsize},
+			bus/.style={draw=ICLBlue, fill=white, rounded corners=2pt, align=left, minimum height=1.70cm, text width=2.05cm, font=\tiny},
+			node/.style={draw=ICLBlue, fill=ICLCream, rounded corners=2pt, align=center, minimum height=0.72cm, text width=2.0cm, font=\scriptsize},
+			output/.style={draw=orange, fill=orange!12, rounded corners=2pt, align=center, minimum height=0.54cm, text width=1.68cm, font=\tiny},
+			arrow/.style={->, line width=0.75pt, draw=ICLBlue},
+			query/.style={<->, line width=0.8pt, draw=orange}
+		]
+			\node[pub] (bag) at (0,1.35) {rosbag\\replay};
+			\node[bus] (bus) at (2.55,1.35) {\textbf{ROS topics}\\[-0.2mm]
+				/sonar/image\\
+				/imu, /dvl\\
+				/tf, /GT};
+
+			\node[node] (odom) at (5.30,2.35) {IMU/DVL\\odometry};
+			\node[node] (reg) at (5.30,1.10) {online-render\\registration};
+			\node[node] (render) at (5.30,-0.15) {GS\_Sonar\\render service};
+
+			\node[output] (baseline) at (7.85,2.35) {/baseline\\Pose3};
+			\node[output] (factor) at (7.85,1.10) {/registration\\factor};
+			\node[node] (isam) at (10.15,1.75) {Pose3 backend\\iSAM2};
+			\node[output] (corrected) at (12.25,1.75) {/corrected\\Pose3};
+			\node[node] (eval) at (10.15,0.35) {evaluation\\subscriber};
+
+			\node[font=\tiny, color=ICLDarkBlue] at (2.55,2.82) {published by replay};
+			\node[font=\tiny, color=ICLDarkBlue] at (5.30,2.82) {subscribers};
+			\node[font=\tiny, color=ICLDarkBlue] at (8.95,2.82) {factor graph};
+
+			\draw[arrow] (bag) -- (bus);
+			\draw[arrow] (bus.east) -- ++(0.35,0) |- (odom.west);
+			\draw[arrow] (bus.east) -- ++(0.35,0) |- (reg.west);
+			\draw[arrow] (bus.east) -- ++(0.35,0) |- (eval.west);
+			\draw[arrow] (odom) -- (baseline);
+			\draw[arrow] (baseline) -- (isam);
+			\draw[arrow] (baseline.south) -- ++(0,-0.35) -| (reg.north);
+			\draw[query] (reg) -- (render);
+			\draw[arrow] (reg) -- (factor);
+			\draw[arrow] (factor.east) -- ++(0.45,0) |- (isam.south);
+			\draw[arrow] (isam) -- (corrected);
+			\draw[arrow] (corrected.south) -- ++(0,-1.40) -| (eval.east);
+		\end{tikzpicture}
 	\end{center}
+
+	\vspace{1mm}
+	{\footnotesize
+	The replay is deliberately online. Nodes subscribe to ROS topics in time order, the registration node queries NAS-GS only at candidate poses, and iSAM2 receives only gated Pose3 factors.
+	}
 \end{frame}
 
 %------------------------------------------------
 
 \begin{frame}
-	\frametitle{Live Replay Implementation}
-	\framesubtitle{The same replay path is used for synthetic and offshore validation}
+	\frametitle{Algorithm Step 2: Candidate Pose And NAS-GS Render}
+	\framesubtitle{The system searches poses, not image transformations}
 
+	\begin{columns}[T]
+		\begin{column}{0.32\textwidth}
+			{\small\textbf{Local single-frame search}}
+			\vspace{1mm}
+			\begin{center}
+				\begin{tikzpicture}[scale=0.66]
+					\draw[step=0.55, color=ICLBlue!18] (-1.7,-1.7) grid (1.7,1.7);
+					\draw[line width=1.2pt, color=ICLBlue] (-1.45,-1.0) .. controls (-0.5,-0.5) and (0.35,0.45) .. (1.35,0.9);
+					\foreach \x in {-0.8,0,0.8} {
+						\foreach \y in {-0.8,0,0.8} {
+							\fill[orange] (\x,\y) circle (2.2pt);
+						}
+					}
+					\fill[ICLDarkBlue] (0,0) circle (3.0pt);
+					\node[font=\tiny, align=center] at (0,-2.05) {single live frame\\around baseline};
+				\end{tikzpicture}
+			\end{center}
+			{\scriptsize Compact \(x,y,z,\psi\) grid for same-route correction.}
+		\end{column}
+		\begin{column}{0.32\textwidth}
+			{\small\textbf{Route-progress sequence search}}
+			\vspace{1mm}
+			\begin{center}
+				\begin{tikzpicture}[scale=0.66]
+					\draw[step=0.55, color=ICLBlue!18] (-1.7,-1.7) grid (1.7,1.7);
+					\draw[line width=1.2pt, color=ICLBlue] (-1.45,-1.1) .. controls (-0.5,0.05) and (0.35,0.65) .. (1.45,1.05);
+					\draw[line width=1.0pt, color=orange] (-1.35,-0.75) .. controls (-0.25,0.25) and (0.55,0.35) .. (1.35,0.75);
+					\foreach \x in {-1.1,-0.55,0,0.55,1.1} {
+						\foreach \y in {-1.1,-0.55,0,0.55,1.1} {
+							\fill[orange!80] (\x,\y) circle (1.6pt);
+						}
+					}
+					\draw[rounded corners=1pt, draw=ICLBlue, fill=white] (-1.45,1.55) rectangle (-0.85,1.9);
+					\draw[rounded corners=1pt, draw=ICLBlue, fill=white] (-0.25,1.55) rectangle (0.35,1.9);
+					\draw[rounded corners=1pt, draw=ICLBlue, fill=white] (0.95,1.55) rectangle (1.55,1.9);
+					\node[font=\tiny] at (-1.15,2.08) {$t-1$};
+					\node[font=\tiny] at (0.05,2.08) {$t$};
+					\node[font=\tiny] at (1.25,2.08) {$t+1$};
+					\node[font=\tiny, align=center] at (0,-2.05) {sequence evidence\\around route prior};
+				\end{tikzpicture}
+			\end{center}
+			{\scriptsize The orange line is a smooth candidate correction sequence. Wider candidates are allowed, but neighbouring frames must agree.}
+		\end{column}
+		\begin{column}{0.31\textwidth}
+			{\small\textbf{Render query}}
+			\vspace{1mm}
+			\begin{center}
+				\begin{tikzpicture}
+					\node[draw=ICLBlue, fill=ICLCream, rounded corners=2pt, align=center, text width=2.5cm, minimum height=0.85cm, font=\scriptsize] (server) at (0,0.7) {GS\_Sonar\\render server};
+					\node[draw=ICLBlue, fill=ICLBlue!7, rounded corners=2pt, align=center, text width=2.5cm, minimum height=0.7cm, font=\scriptsize] (pose) at (0,2.0) {picked Pose3\\candidate};
+					\draw[->, line width=0.8pt, draw=ICLBlue] (pose) -- (server);
+				\end{tikzpicture}
+				\vspace{1mm}
+				\includegraphics[width=0.95\linewidth,height=0.23\textheight,keepaspectratio]{slide_render_consistency_sonar_map.png}
+			\end{center}
+			{\scriptsize The output is a rendered sonar image for the proposed robot pose.}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Algorithm Step 3: Score And Gate}
+	\framesubtitle{A factor is accepted only when image evidence and pose checks agree}
+
+	\begin{columns}[T]
+		\begin{column}{0.47\textwidth}
+			{\small\textbf{Accepted pair}}
+			\vspace{1mm}
+			\begin{columns}[T,totalwidth=\linewidth]
+				\begin{column}{0.49\linewidth}
+					\includegraphics[width=\linewidth,height=0.23\textheight,keepaspectratio]{slide_render_consistency_live_sonar.png}
+					\par\vspace{0.5mm}{\centering\tiny live sonar\par}
+				\end{column}
+				\begin{column}{0.49\linewidth}
+					\includegraphics[width=\linewidth,height=0.23\textheight,keepaspectratio]{slide_render_consistency_sonar_map.png}
+					\par\vspace{0.5mm}{\centering\tiny rendered sonar\par}
+				\end{column}
+			\end{columns}
+			\vspace{1mm}
+			{\scriptsize Strong return overlap and low residual image difference.}
+		\end{column}
+		\begin{column}{0.47\textwidth}
+			{\small\textbf{Rejected pair}}
+			\vspace{1mm}
+			\begin{columns}[T,totalwidth=\linewidth]
+				\begin{column}{0.49\linewidth}
+					\includegraphics[width=\linewidth,height=0.23\textheight,keepaspectratio]{slide_score_reject_live.png}
+					\par\vspace{0.5mm}{\centering\tiny live sonar\par}
+				\end{column}
+				\begin{column}{0.49\linewidth}
+					\includegraphics[width=\linewidth,height=0.23\textheight,keepaspectratio]{slide_score_reject_render.png}
+					\par\vspace{0.5mm}{\centering\tiny rendered sonar\par}
+				\end{column}
+			\end{columns}
+			\vspace{1mm}
+			{\scriptsize Visible structures do not agree, so no graph factor is created.}
+		\end{column}
+	\end{columns}
+
+	\vspace{2mm}
+	\begin{columns}[T]
+		\begin{column}{0.47\textwidth}
+			\storycard{ICLBlue!6}{ICLBlue}{Score calculation}
+			{The replay normalises intensity, measures NCC-style similarity, penalises residual error, and checks bright-return overlap.}
+		\end{column}
+		\begin{column}{0.47\textwidth}
+			\storycard{ICLCream}{ICLBlue}{Gates}
+			{A candidate must pass render-score, structure-support, pose-jump, and sequence-consistency gates before insertion.}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Algorithm Step 4: Pose3 Factor And iSAM2 Update}
+	\framesubtitle{A passed render match becomes a graph constraint}
+
+	\begin{columns}[T]
+		\begin{column}{0.58\textwidth}
+			\begin{center}
+				\begin{tikzpicture}[scale=0.84]
+					\foreach \i/\x/\y in {0/0/0,1/1.3/0.15,2/2.6/0.0,3/3.9/0.35,4/5.2/0.25} {
+						\filldraw[fill=ICLBlue!12, draw=ICLBlue, line width=0.9pt] (\x,\y) circle (0.13);
+						\node[font=\tiny] at (\x,\y-0.35) {$X_{\i}$};
+					}
+					\draw[->, line width=1.0pt, draw=ICLBlue] (0.13,0.02) -- (1.17,0.14);
+					\draw[->, line width=1.0pt, draw=ICLBlue] (1.43,0.14) -- (2.47,0.02);
+					\draw[->, line width=1.0pt, draw=ICLBlue] (2.73,0.03) -- (3.77,0.31);
+					\draw[->, line width=1.0pt, draw=ICLBlue] (4.03,0.34) -- (5.07,0.27);
+					\node[draw=orange, fill=orange!15, rounded corners=2pt, align=center, text width=2.2cm, font=\scriptsize] (nasgs) at (3.9,1.85) {accepted\\NAS-GS pose};
+					\draw[->, line width=1.1pt, draw=orange] (nasgs) -- node[right, font=\tiny] {Pose3 factor} (3.9,0.52);
+					\draw[line width=1.1pt, draw=ICLBlue!45, dashed] (0,-0.85) .. controls (1.3,-1.0) and (2.6,-0.95) .. (3.9,-0.78) .. controls (4.7,-0.68) .. (5.3,-0.55);
+					\node[font=\tiny, color=ICLBlue] at (1.35,-1.28) {before factor};
+					\draw[line width=1.3pt, draw=red] (0,-0.55) .. controls (1.4,-0.45) and (2.5,-0.37) .. (3.9,-0.10) .. controls (4.5,0.02) .. (5.2,0.12);
+					\node[font=\tiny, color=red] at (5.0,-0.30) {after iSAM2 update};
+				\end{tikzpicture}
+			\end{center}
+		\end{column}
+		\begin{column}{0.36\textwidth}
+			\storycard{ICLBlue!6}{ICLBlue}{Before}
+			{The graph contains IMU/DVL odometry factors, so drift accumulates along the chain.}
+
+			\vspace{2mm}
+			\storycard{ICLCream}{ICLBlue}{Insertion}
+			{The accepted candidate pose and covariance are published as a Pose3 registration factor.}
+
+			\vspace{2mm}
+			\storycard{ICLBlue!6}{ICLBlue}{After}
+			{iSAM2 optimises the graph, pulling nearby states toward the render-consistent pose.}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Algorithm Step 5: Route-progress Revisit Priors}
+	\framesubtitle{Pass B uses sequence evidence plus route and drift priors}
+
+	\vspace{-1mm}
 	\begin{center}
-		\includegraphics[width=0.94\textwidth]{ros_live_replay_pipeline.png}
+		\begin{tikzpicture}[
+			box/.style={draw=ICLBlue, fill=ICLBlue!7, rounded corners=2pt, align=center, minimum height=0.55cm, text width=1.80cm, font=\tiny},
+			prior/.style={draw=orange, fill=orange!12, rounded corners=2pt, align=center, minimum height=0.55cm, text width=1.85cm, font=\tiny},
+			arrow/.style={->, line width=0.8pt, draw=ICLBlue}
+		]
+			\node[box] (seq) at (0,0) {Pass B\\window};
+			\node[prior] (route) at (2.15,0) {route progress\\selects map window};
+			\node[prior] (drift) at (4.55,0) {drift prior\\sets envelope};
+			\node[box] (search) at (6.95,0) {sequence\\render search};
+			\node[box] (gate) at (9.10,0) {score\\and gate};
+			\node[box] (factor) at (11.25,0) {Pose3\\factor};
+			\draw[arrow] (seq) -- (route);
+			\draw[arrow] (route) -- (drift);
+			\draw[arrow] (drift) -- (search);
+			\draw[arrow] (search) -- (gate);
+			\draw[arrow] (gate) -- (factor);
+		\end{tikzpicture}
 	\end{center}
+
+	\vspace{0.5mm}
+	\begin{columns}[T]
+		\begin{column}{0.47\textwidth}
+			{\small\textbf{Route prior}}
+			{\scriptsize
+			\[
+			s_t=\frac{t}{N_B-1}, \qquad
+			i_t=\mathrm{round}\!\left(s_t(N_A-1)\right)
+			\]
+			\begin{itemize}
+				\setlength{\itemsep}{0.35mm}
+				\item \(t\) is the current Pass B frame index.
+				\item \(N_A,N_B\) are route lengths.
+				\item \(s_t\) is normalised progress.
+				\item \(i_t\) selects the Pass A map window.
+				\item This avoids nearest-pose lookup when route direction changes.
+			\end{itemize}
+			}
+		\end{column}
+		\begin{column}{0.47\textwidth}
+			{\small\textbf{Drift prior}}
+			{\scriptsize
+			\[
+			T^{cand}_{B,t}=T^{odom}_{B,t}\oplus c_t,\qquad
+			c_t\in\mathcal{E}_{drift}(s_t)
+			\]
+			\begin{itemize}
+				\setlength{\itemsep}{0.35mm}
+				\item \(T^{odom}_{B,t}\) is the live drifted Pose3.
+				\item \(c_t\) samples correction in \(x,y,z,\psi\).
+				\item \(\mathcal{E}_{drift}\) is the progress-dependent envelope.
+				\item It is learned from Pass A baseline-to-GT errors.
+				\item It guides search size, not the final accepted pose.
+			\end{itemize}
+			}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 %------------------------------------------------
 
 \begin{frame}
 	\frametitle{Experimental Design}
-	\framesubtitle{Three increasingly difficult operating cases}
+	\framesubtitle{Recorded data, map training, and replay policy}
 
 	\begin{table}
-		\small
-		\begin{tabular}{@{}p{0.23\textwidth}p{0.33\textwidth}p{0.33\textwidth}@{}}
+		\scriptsize
+		\renewcommand{\arraystretch}{1.15}
+		\begin{tabular}{@{}p{0.14\textwidth}p{0.14\textwidth}p{0.15\textwidth}p{0.20\textwidth}p{0.25\textwidth}@{}}
 			\toprule
-			Case & Purpose & Sonar setting \\
+			Case & Images & Sonar setting & NAS-GS map & Replay policy \\
 			\midrule
-			Pass A & Same-route correction on the trained DAVE map & \(90^\circ\) field of view, 20 m range \\
-			Pass A revisit & Same-route revisit with a newly recorded trajectory & \(90^\circ\), 20 m \\
-			Pass B revisit & Hard revisit around the scene in a different direction & \(90^\circ\), 20 m \\
-			Offshore & Real-scene style validation on the 151216 dataset & \(120^\circ\), 12 m \\
+			Pass A & 477 & \(90^\circ\), 20 m & Pass A, 900k/i1000 & Relaxed local single \\
+			Pass A revisit & 431 & \(90^\circ\), 20 m & Pass A, 900k/i1000 & Relaxed local; route-progress check \\
+			Pass B revisit & 496 & \(90^\circ\), 20 m & Pass A, 900k/i1000 & Relaxed route-progress sequence \\
+			Offshore & 1139 & \(120^\circ\), 12 m & Offshore, 750k/i800 & Relaxed local single \\
 			\bottomrule
 		\end{tabular}
 	\end{table}
 
-	\vspace{4mm}
-	The baseline is the IMU/DVL Pose3 replay. The corrected result is the same backend after NAS-GS registration factors are inserted.
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-	\frametitle{Pass A Result}
-	\framesubtitle{The same-route case shows the strongest online-render correction}
-
-	\begin{center}
-		\includegraphics[width=0.87\textwidth]{passA_current_online_render_3d.png}
-	\end{center}
+	\vspace{2mm}
+	\begin{columns}[T]
+		\begin{column}{0.47\textwidth}
+			\textbf{Baseline setting}\\[-0.5mm]
+			{\scriptsize IMU/DVL Pose3 replay with NAS-GS factors disabled. Drift is injected as DVL scale error, velocity bias, yaw drift, dropout, and replay geometry, while sonar map frames stay clean.}
+		\end{column}
+		\begin{column}{0.47\textwidth}
+			\textbf{Relaxed gating}\\[-0.5mm]
+			{\scriptsize Minimum render score 0.08, maximum accepted correction 5 m in \(x,y\) and 8 m in \(z\), followed by render-validity and factor-consistency checks.}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 %------------------------------------------------
@@ -410,11 +641,39 @@
 %------------------------------------------------
 
 \begin{frame}
-	\frametitle{Offshore Validation}
-	\framesubtitle{The method transfers, but the real-scene case exposes z and appearance limits}
+	\frametitle{Pass A Sonar Evidence}
+	\framesubtitle{One recorded frame and the corresponding BP/no-BP rendered libraries}
+
+	\begin{columns}[T]
+		\begin{column}{0.31\textwidth}
+			\storycard{ICLCream}{ICLBlue}{Recorded Pass A}
+			{Live sonar frame from the DAVE route.}
+			\vspace{1mm}
+			\includegraphics[width=\textwidth]{passA_evidence_live_frame216.png}
+		\end{column}
+		\begin{column}{0.31\textwidth}
+			\storycard{ICLCream}{ICLBlue}{Rendered BP library}
+			{Reference image from the trained NAS-GS map.}
+			\vspace{1mm}
+			\includegraphics[width=\textwidth]{passA_evidence_rendered_bp_frame216.png}
+		\end{column}
+		\begin{column}{0.31\textwidth}
+			\storycard{ICLCream}{ICLBlue}{Rendered no-BP library}
+			{Alternative rendered appearance for policy testing.}
+			\vspace{1mm}
+			\includegraphics[width=\textwidth]{passA_evidence_rendered_nobp_frame216.png}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Pass A Result}
+	\framesubtitle{The same-route case shows the strongest online-render correction with the selected policy}
 
 	\begin{center}
-		\includegraphics[width=0.87\textwidth]{offshore_current_online_render_3d.png}
+		\includegraphics[height=0.64\textheight,keepaspectratio]{passA_current_online_render_3d.png}
 	\end{center}
 \end{frame}
 
@@ -425,12 +684,51 @@
 	\framesubtitle{The better rendering mode depends on the recorded sonar appearance}
 
 	\begin{center}
-		\includegraphics[width=0.9\textwidth]{offshore_bp_vs_nobp_online_render_comparison.png}
+		\includegraphics[width=0.82\textwidth]{offshore_bp_vs_nobp_online_render_comparison.png}
 	\end{center}
 
-	\vspace{-1mm}
-	\small
-	Pass A is cleaner and benefits from the rendered BP library even when runtime BP is disabled. Offshore data contains stronger real-image artefacts, so BP/no-BP behaviour is less interchangeable.
+	\vspace{-2mm}
+	\scriptsize
+	Offshore data contains stronger real-image artefacts, so BP and no-BP rendering are less interchangeable than in the DAVE Pass A replay.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Offshore Sonar Evidence}
+	\framesubtitle{The real replay has stronger appearance mismatch than the DAVE route}
+
+	\begin{columns}[T]
+		\begin{column}{0.31\textwidth}
+			\storycard{ICLCream}{ICLBlue}{Recorded offshore}
+			{Live sonar from the 151216 replay.}
+			\vspace{1mm}
+			\includegraphics[width=\textwidth]{offshore_evidence_live_frame517.png}
+		\end{column}
+		\begin{column}{0.31\textwidth}
+			\storycard{ICLCream}{ICLBlue}{Rendered BP library}
+			{NAS-GS render with the offshore BP library.}
+			\vspace{1mm}
+			\includegraphics[width=\textwidth]{offshore_evidence_rendered_bp_frame517.png}
+		\end{column}
+		\begin{column}{0.31\textwidth}
+			\storycard{ICLCream}{ICLBlue}{Rendered no-BP library}
+			{No-BP render used for appearance comparison.}
+			\vspace{1mm}
+			\includegraphics[width=\textwidth]{offshore_evidence_rendered_nobp_frame517.png}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Offshore Validation}
+	\framesubtitle{The method transfers, but the real-scene case exposes z and appearance limits}
+
+	\begin{center}
+		\includegraphics[height=0.64\textheight,keepaspectratio]{offshore_current_online_render_3d.png}
+	\end{center}
 \end{frame}
 
 %------------------------------------------------
@@ -441,17 +739,6 @@
 
 	\begin{center}
 		\includegraphics[width=0.9\textwidth]{passA_passA_revisit_baseline_overlay.png}
-	\end{center}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-	\frametitle{Route-progress Revisit Mode}
-	\framesubtitle{Sequence evidence is used before a revisit factor is accepted}
-
-	\begin{center}
-		\includegraphics[width=0.88\textwidth]{passB_route_progress_policy_pipeline.png}
 	\end{center}
 \end{frame}
 
@@ -470,24 +757,55 @@
 
 \begin{frame}
 	\frametitle{What The Results Show}
+	\framesubtitle{The method works best as selective map-aided correction}
 
 	\begin{columns}[T]
 		\begin{column}{0.47\textwidth}
-			\textbf{Strengths}
+			\textbf{Evidence}
 			\begin{itemize}
-				\item Local same-route correction works.
-				\item The pipeline runs as a live replay.
-				\item Offshore validation shows real-scene relevance.
-				\item Render evidence gives interpretable factor placement.
+				\item Pass A shows strong same-route correction from a trained NAS-GS map.
+				\item Pass A revisit confirms the local policy transfers to a newly recorded repeat route.
+				\item Offshore BP replay transfers the same backbone to real sonar appearance.
+				\item Accepted factors are interpretable because each one has a rendered-image explanation.
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.47\textwidth}
-			\textbf{Limits}
+			\textbf{Boundary}
 			\begin{itemize}
-				\item Sonar ambiguity can accept visually plausible but wrong candidates.
-				\item z correction is sensitive to rendering and trajectory priors.
-				\item Hard revisit remains limited without stronger sequence geometry.
-				\item Render-server geometry must match the sonar dataset.
+				\item This is not continuous sonar odometry or global relocalisation.
+				\item Reverse-route revisit improves on average, but endpoint stability is not solved.
+				\item Wide search needs sequence confirmation before large corrections are trusted.
+				\item Offshore accuracy is reference-consistency against Aqua-SLAM, not independent survey truth.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+
+	\vspace{3mm}
+	\small
+	The useful operating region is repeated inspection: a well anchored map supplies selective Pose3 factors that correct drift when the live sonar remains inside a recoverable search basin.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Future Work}
+	\framesubtitle{The next steps follow directly from the remaining failure modes}
+
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\textbf{Algorithm}
+			\begin{itemize}
+				\item Strengthen sequence evidence for large-drift recovery.
+				\item Improve route-progress endpoint stability for reverse revisits.
+				\item Use drift priors as guarded envelopes, not direct pose predictions.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\textbf{Validation}
+			\begin{itemize}
+				\item Retrain or fine-tune NAS-GS with corrected trajectories.
+				\item Repeat offshore tests with an independent reference if available.
+				\item Move from replay to real robot timing, calibration, and safety tests.
 			\end{itemize}
 		\end{column}
 	\end{columns}
@@ -499,20 +817,21 @@
 	\frametitle{Conclusion}
 
 	\Large
-	This project demonstrates an online-render SLAM correction system.
+	NAS-GS can act as a useful sonar map prior for SLAM.
 
 	\vspace{5mm}
 	\normalsize
-	The main result is that a NAS-GS sonar map can provide useful Pose3 registration factors when the live sonar appearance, render geometry, and search basin are aligned.
+	The implemented system turns render consistency into selective Pose3 registration factors and fuses them with IMU/DVL odometry through iSAM2.
 
 	\vspace{4mm}
-	The main limitation is revisit robustness. The next step is a stronger sequence-level solver that estimates smooth candidate paths rather than accepting isolated frame evidence.
+	It is strongest for same-route and repeated-inspection correction. Route-progress revisit and offshore replay show the method transfers, but large-drift recovery and independent real-world validation remain the main next steps.
 \end{frame}
 
 %------------------------------------------------
 
+{
+\setbeamercolor{background canvas}{bg=ICLBlue}
 \begin{frame}[plain]
-	\setbeamercolor{background canvas}{bg=ICLBlue}
 	\vspace{14mm}
 	\begin{center}
 		\includegraphics[width=45mm]{ICL_Logo_White.pdf}
@@ -524,5 +843,6 @@
 		{\color{white}\Large Questions?}
 	\end{center}
 \end{frame}
+}
 
 \end{document}
