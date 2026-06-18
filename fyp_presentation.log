@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2026.6.17)  18 JUN 2026 20:12
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2026.6.17)  18 JUN 2026 20:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -740,30 +740,30 @@ File: tikzlibrarytopaths.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 ))) (./fyp_presentation.aux)
 \openout1 = `fyp_presentation.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 45.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 45.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 44.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 44.
  (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -799,7 +799,7 @@ LaTeX Font Info:    ... okay on input line 45.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 45.
+Package hyperref Info: Link coloring OFF on input line 44.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
  (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
@@ -809,55 +809,55 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count361
 )
-LaTeX Info: Redefining \ref on input line 45.
-LaTeX Info: Redefining \pageref on input line 45.
-LaTeX Info: Redefining \nameref on input line 45.
+LaTeX Info: Redefining \ref on input line 44.
+LaTeX Info: Redefining \pageref on input line 44.
+LaTeX Info: Redefining \nameref on input line 44.
  (./fyp_presentation.out) (./fyp_presentation.out)
 \@outlinefile=\write5
 \openout5 = `fyp_presentation.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 45.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 44.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 45.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 44.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/lmr/m/n on input line 45.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 45.
+(Font)                  OT1/cmss/m/n --> TU/lmr/m/n on input line 44.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> TU/ImperialSansText(0)/b/n on input line 45.
+(Font)                  OT1/cmr/bx/n --> TU/ImperialSansText(0)/b/n on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> TU/ImperialSansText(0)/b/n on input line 45.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 45.
+(Font)                  OT1/cmr/bx/n --> TU/ImperialSansText(0)/b/n on input line 44.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/ImperialSansText(0)/m/n on input line 45.
+(Font)                  OT1/cmss/m/n --> TU/ImperialSansText(0)/m/n on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/ImperialSansText(0)/m/n on input line 45.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 45.
+(Font)                  OT1/cmss/bx/n --> TU/ImperialSansText(0)/m/n on input line 44.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> TU/ImperialSansText(0)/m/it on input line 45.
+(Font)                  OT1/cmr/m/it --> TU/ImperialSansText(0)/m/it on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> TU/ImperialSansText(0)/m/it on input line 45.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 45.
+(Font)                  OT1/cmr/bx/it --> TU/ImperialSansText(0)/m/it on input line 44.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 45.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 45.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 44.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  TU/ImperialSansText(0)/m/n --> TU/ImperialSansText(0)/b/n on input line 45.
+(Font)                  TU/ImperialSansText(0)/m/n --> TU/ImperialSansText(0)/b/n on input line 44.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  TU/ImperialSansText(0)/m/it --> TU/ImperialSansText(0)/b/it on input line 45.
+(Font)                  TU/ImperialSansText(0)/m/it --> TU/ImperialSansText(0)/b/it on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/b/n --> TU/lmr/b/n on input line 45.
+(Font)                  OT1/cmss/b/n --> TU/lmr/b/n on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  TU/ImperialSansText(0)/b/n --> TU/ImperialSansText(0)/b/n on input line 45.
+(Font)                  TU/ImperialSansText(0)/b/n --> TU/ImperialSansText(0)/b/n on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  TU/ImperialSansText(0)/m/n --> TU/ImperialSansText(0)/b/n on input line 45.
+(Font)                  TU/ImperialSansText(0)/m/n --> TU/ImperialSansText(0)/b/n on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  TU/ImperialSansText(0)/m/it --> TU/ImperialSansText(0)/b/it on input line 45.
+(Font)                  TU/ImperialSansText(0)/m/it --> TU/ImperialSansText(0)/b/it on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  TU/lmtt/m/n --> TU/lmtt/b/n on input line 45.
+(Font)                  TU/lmtt/m/n --> TU/lmtt/b/n on input line 44.
  (/usr/share/texlive/texmf-dist/tex/latex/translator/translator-basic-dictionary-English.dict
 Dictionary: translator-basic-dictionary, Language: English 
 ) (/usr/share/texlive/texmf-dist/tex/latex/translator/translator-bibliography-dictionary-English.dict
@@ -877,64 +877,64 @@ Package fontspec Info: Adjusting the maths setup (use [no-math] to avoid
 
 \symlegacymaths=\mathgroup8
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 45.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 45.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 45.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 45.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 45.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 45.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 45.
-LaTeX Font Info:    Redeclaring math accent \check on input line 45.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 45.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 45.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 45.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 45.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 45.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 45.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 45.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 45.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 45.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 45.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 45.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 45.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 45.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 45.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 45.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 45.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 44.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 44.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 44.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 44.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 44.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 44.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 44.
+LaTeX Font Info:    Redeclaring math accent \check on input line 44.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 44.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 44.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 44.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 44.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 45.
+(Font)              `operators' in the math version `normal' on input line 44.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/lmr/m/n on input line 45.
+(Font)                  OT1/cmss/m/n --> TU/lmr/m/n on input line 44.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 45.
+(Font)              `operators' in the math version `bold' on input line 44.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmss/b/n --> TU/lmr/m/n on input line 45.
+(Font)                  OT1/cmss/b/n --> TU/lmr/m/n on input line 44.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  TU/lmr/m/n --> TU/lmr/m/n on input line 45.
-LaTeX Font Info:    Redeclaring math alphabet \mathrm on input line 45.
+(Font)                  TU/lmr/m/n --> TU/lmr/m/n on input line 44.
+LaTeX Font Info:    Redeclaring math alphabet \mathrm on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  TU/ImperialSansText(0)/m/it --> TU/lmr/m/it on input line 45.
+(Font)                  TU/ImperialSansText(0)/m/it --> TU/lmr/m/it on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  TU/ImperialSansText(0)/b/n --> TU/lmr/b/n on input line 45.
+(Font)                  TU/ImperialSansText(0)/b/n --> TU/lmr/b/n on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  TU/ImperialSansText(0)/m/n --> TU/ImperialSansText(0)/m/n on input line 45.
+(Font)                  TU/ImperialSansText(0)/m/n --> TU/ImperialSansText(0)/m/n on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  TU/lmtt/m/n --> TU/lmtt/m/n on input line 45.
+(Font)                  TU/lmtt/m/n --> TU/lmtt/m/n on input line 44.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  TU/lmr/m/n --> TU/lmr/b/n on input line 45.
+(Font)                  TU/lmr/m/n --> TU/lmr/b/n on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  TU/ImperialSansText(0)/b/it --> TU/lmr/b/it on input line 45.
+(Font)                  TU/ImperialSansText(0)/b/it --> TU/lmr/b/it on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  TU/ImperialSansText(0)/b/n --> TU/ImperialSansText(0)/b/n on input line 45.
+(Font)                  TU/ImperialSansText(0)/b/n --> TU/ImperialSansText(0)/b/n on input line 44.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  TU/lmtt/b/n --> TU/lmtt/b/n on input line 45.
+(Font)                  TU/lmtt/b/n --> TU/lmtt/b/n on input line 44.
  (./fyp_presentation.nav)
 File: Images//ICL_Logo_White.pdf Graphic file (type pdf)
 <use Images//ICL_Logo_White.pdf>
  [1
 
 ]
-Underfull \hbox (badness 1097) in paragraph at lines 94--94
+Underfull \hbox (badness 1097) in paragraph at lines 93--93
 []\TU/ImperialSansText(0)/m/n/8 Sonar works underwater, but the image evidence is
  []
 
@@ -944,49 +944,49 @@ Underfull \hbox (badness 1097) in paragraph at lines 94--94
 File: Images/fyp//nasgs_pipeline_overview.png Graphic file (type bmp)
 <Images/fyp//nasgs_pipeline_overview.png>
 
-Overfull \vbox (5.09157pt too high) detected at line 138
+Overfull \vbox (5.09157pt too high) detected at line 137
  []
 
 [3
 
 ]
-Underfull \hbox (badness 6252) in paragraph at lines 183--183
+Underfull \hbox (badness 6252) in paragraph at lines 182--182
 []\TU/ImperialSansText(0)/m/n/8 NAS-GS predicts what the sonar
  []
 
 
-Underfull \hbox (badness 6641) in paragraph at lines 183--183
+Underfull \hbox (badness 6641) in paragraph at lines 182--182
 \TU/ImperialSansText(0)/m/n/8 should observe from a proposed
  []
 
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 183--183
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 182--182
 [][][]  
  []
 
 File: Images/fyp//slide_render_consistency_sonar_map.png Graphic file (type bmp)
 <Images/fyp//slide_render_consistency_sonar_map.png>
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 182--182
 []\TU/ImperialSansText(0)/m/n/8 A live sonar frame is compared
  []
 
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 183--183
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 182--182
 [][][]  
  []
 
 File: Images/fyp//slide_render_consistency_live_sonar.png Graphic file (type bmp)
 <Images/fyp//slide_render_consistency_live_sonar.png>
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 183--183
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 182--182
 [][][]  
  []
 
 File: Images/fyp//slide_render_consistency_corrected_graph.png Graphic file (type bmp)
 <Images/fyp//slide_render_consistency_corrected_graph.png>
 
-Overfull \vbox (7.15936pt too high) detected at line 183
+Overfull \vbox (7.15936pt too high) detected at line 182
  []
 
 [4
@@ -1006,7 +1006,7 @@ File: Images/fyp//passA_passB_route_top_view_slidecrop.png Graphic file (type bm
 File: Images/fyp//appendix_passA_recorded_sonar_contact_sheet.png Graphic file (type bmp)
 <Images/fyp//appendix_passA_recorded_sonar_contact_sheet.png>
 
-Overfull \vbox (12.78847pt too high) detected at line 247
+Overfull \vbox (12.78847pt too high) detected at line 246
  []
 
 [6
@@ -1015,13 +1015,13 @@ Overfull \vbox (12.78847pt too high) detected at line 247
 File: Images/fyp//passA_dave_vs_nasgs_sixpanel_slide.png Graphic file (type bmp)
 <Images/fyp//passA_dave_vs_nasgs_sixpanel_slide.png>
 
-Overfull \vbox (17.21904pt too high) detected at line 264
+Overfull \vbox (17.21904pt too high) detected at line 263
  []
 
 [7
 
 ]
-Underfull \hbox (badness 2443) in paragraph at lines 309--309
+Underfull \hbox (badness 2443) in paragraph at lines 308--308
 []\TU/ImperialSansText(0)/m/it/8 Compact $[]\OML/cmm/m/it/8 ; []; [];  $ \TU/ImperialSansText(0)/m/it/8 search around the live Pose3
  []
 
@@ -1033,7 +1033,7 @@ Underfull \hbox (badness 2443) in paragraph at lines 309--309
 File: Images/fyp//slide_render_consistency_sonar_map.png Graphic file (type bmp)
 <Images/fyp//slide_render_consistency_sonar_map.png>
 
-Overfull \vbox (12.52367pt too high) detected at line 449
+Overfull \vbox (12.52367pt too high) detected at line 448
  []
 
 [10
@@ -1048,18 +1048,18 @@ File: Images/fyp//slide_score_reject_live.png Graphic file (type bmp)
 File: Images/fyp//slide_score_reject_render.png Graphic file (type bmp)
 <Images/fyp//slide_score_reject_render.png>
 
-Overfull \vbox (2.8443pt too high) detected at line 503
+Overfull \vbox (2.8443pt too high) detected at line 502
  []
 
 [11
 
 ]
-Underfull \hbox (badness 3375) in paragraph at lines 545--545
+Underfull \hbox (badness 3375) in paragraph at lines 544--544
 []\TU/ImperialSansText(0)/m/it/8 The graph contains IMU/DVL odometry
  []
 
 
-Underfull \hbox (badness 2368) in paragraph at lines 545--545
+Underfull \hbox (badness 2368) in paragraph at lines 544--544
 \TU/ImperialSansText(0)/m/it/8 factors, so drift accumulates along the
  []
 
@@ -1075,33 +1075,33 @@ File: Images/fyp//passA_bp_vs_nobp_online_render_comparison.png Graphic file (ty
  [15
 
 ]
-Underfull \hbox (badness 4467) in paragraph at lines 684--684
+Underfull \hbox (badness 4467) in paragraph at lines 683--683
 []\TU/ImperialSansText(0)/m/it/8 Live sonar frame from the DAVE
  []
 
 File: Images/fyp//passA_evidence_live_frame216.png Graphic file (type bmp)
 <Images/fyp//passA_evidence_live_frame216.png>
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 684--684
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 683--683
 [][][] 
  []
 
 
-Underfull \hbox (badness 1838) in paragraph at lines 684--684
+Underfull \hbox (badness 1838) in paragraph at lines 683--683
 []\TU/ImperialSansText(0)/m/it/8 Reference image from the trained
  []
 
 File: Images/fyp//passA_evidence_rendered_bp_frame216.png Graphic file (type bmp)
 <Images/fyp//passA_evidence_rendered_bp_frame216.png>
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 684--684
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 683--683
 [][][] 
  []
 
 File: Images/fyp//passA_evidence_rendered_nobp_frame216.png Graphic file (type bmp)
 <Images/fyp//passA_evidence_rendered_nobp_frame216.png>
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 684--684
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 683--683
 [][][] 
  []
 
@@ -1121,21 +1121,21 @@ File: Images/fyp//offshore_bp_vs_nobp_online_render_comparison.png Graphic file 
 File: Images/fyp//offshore_evidence_live_frame517.png Graphic file (type bmp)
 <Images/fyp//offshore_evidence_live_frame517.png>
 
-Overfull \hbox (0.73457pt too wide) in paragraph at lines 738--738
+Overfull \hbox (0.73457pt too wide) in paragraph at lines 737--737
 [][][] 
  []
 
 File: Images/fyp//offshore_evidence_rendered_bp_frame517.png Graphic file (type bmp)
 <Images/fyp//offshore_evidence_rendered_bp_frame517.png>
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 738--738
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 737--737
 [][][] 
  []
 
 File: Images/fyp//offshore_evidence_rendered_nobp_frame517.png Graphic file (type bmp)
 <Images/fyp//offshore_evidence_rendered_nobp_frame517.png>
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 738--738
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 737--737
 [][][] 
  []
 
@@ -1145,7 +1145,7 @@ Overfull \hbox (1.77025pt too wide) in paragraph at lines 738--738
 File: Images/fyp//offshore_current_online_render_3d.png Graphic file (type bmp)
 <Images/fyp//offshore_current_online_render_3d.png>
 
-Overfull \vbox (15.6126pt too high) detected at line 749
+Overfull \vbox (15.6126pt too high) detected at line 748
  []
 
 [20
@@ -1154,7 +1154,7 @@ Overfull \vbox (15.6126pt too high) detected at line 749
 File: Images/fyp//passA_passA_revisit_baseline_overlay.png Graphic file (type bmp)
 <Images/fyp//passA_passA_revisit_baseline_overlay.png>
 
-Overfull \vbox (44.27426pt too high) detected at line 760
+Overfull \vbox (44.27426pt too high) detected at line 759
  []
 
 [21
@@ -1163,7 +1163,7 @@ Overfull \vbox (44.27426pt too high) detected at line 760
 File: Images/fyp//route_progress_revisit_results.png Graphic file (type bmp)
 <Images/fyp//route_progress_revisit_results.png>
 
-Overfull \vbox (37.20401pt too high) detected at line 771
+Overfull \vbox (37.20401pt too high) detected at line 770
  []
 
 [22
@@ -1196,7 +1196,7 @@ Package rerunfilecheck Info: File `fyp_presentation.out' has not changed.
 Here is how much of TeX's memory you used:
  27690 strings out of 478190
  603462 string characters out of 5854827
- 934329 words of memory out of 5000000
+ 933891 words of memory out of 5000000
  47669 multiletter control sequences out of 15000+600000
  475852 words of font info for 100 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
