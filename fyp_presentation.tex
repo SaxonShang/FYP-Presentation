@@ -318,44 +318,62 @@
 	\begin{center}
 		\begin{tikzpicture}[
 			pub/.style={draw=ICLBlue, fill=ICLBlue!7, rounded corners=2pt, align=center, minimum height=0.78cm, text width=1.75cm, font=\scriptsize},
-			bus/.style={draw=ICLBlue, fill=white, rounded corners=2pt, align=left, minimum height=1.70cm, text width=2.05cm, font=\tiny},
+			bus/.style={draw=ICLBlue, fill=white, rounded corners=2pt, align=left, minimum height=1.35cm, text width=1.75cm, font=\tiny},
 			node/.style={draw=ICLBlue, fill=ICLCream, rounded corners=2pt, align=center, minimum height=0.72cm, text width=2.0cm, font=\scriptsize},
 			output/.style={draw=orange, fill=orange!12, rounded corners=2pt, align=center, minimum height=0.54cm, text width=1.68cm, font=\tiny},
 			arrow/.style={->, line width=0.75pt, draw=ICLBlue},
-			query/.style={<->, line width=0.8pt, draw=orange}
+			query/.style={->, line width=1.0pt, draw=orange, dashed}
 		]
+
+			% ROS replay
 			\node[pub] (bag) at (0,1.35) {rosbag\\replay};
 			\node[bus] (bus) at (2.55,1.35) {\textbf{ROS topics}\\[-0.2mm]
 				/sonar/image\\
 				/imu, /dvl\\
 				/tf, /GT};
 
+			% SLAM pipeline nodes
 			\node[node] (odom) at (5.30,2.35) {IMU/DVL\\odometry};
 			\node[node] (reg) at (5.30,1.10) {online-render\\registration};
 			\node[node] (render) at (5.30,-0.15) {GS\_Sonar\\render service};
 
-			\node[output] (baseline) at (7.85,2.35) {/baseline\\Pose3};
-			\node[output] (factor) at (7.85,1.10) {/registration\\factor};
+			% SLAM backend (space increased)
 			\node[node] (isam) at (10.15,1.75) {Pose3 backend\\iSAM2};
-			\node[output] (corrected) at (12.25,1.75) {/corrected\\Pose3};
+			\node[output] (corrected) at (13.10,1.75) {corrected\\Pose3};
+
+			% outputs
+			\node[output] (baseline) at (7.85,2.35) {baseline\\Pose3};
+			\node[output] (factor) at (7.85,1.10) {registration\\factor};
 			\node[node] (eval) at (10.15,0.35) {evaluation\\subscriber};
 
+			% labels
 			\node[font=\tiny, color=ICLDarkBlue] at (2.55,2.82) {published by replay};
 			\node[font=\tiny, color=ICLDarkBlue] at (5.30,2.82) {subscribers};
 			\node[font=\tiny, color=ICLDarkBlue] at (8.95,2.82) {factor graph};
 
+			% ROS flow
 			\draw[arrow] (bag) -- (bus);
 			\draw[arrow] (bus.east) -- ++(0.35,0) |- (odom.west);
 			\draw[arrow] (bus.east) -- ++(0.35,0) |- (reg.west);
 			\draw[arrow] (bus.east) -- ++(0.35,0) |- (eval.west);
+
+			% odometry to SLAM
 			\draw[arrow] (odom) -- (baseline);
 			\draw[arrow] (baseline) -- (isam);
-			\draw[arrow] (baseline.south) -- ++(0,-0.35) -| (reg.north);
+
+			% registration pipeline
 			\draw[query] (reg) -- (render);
 			\draw[arrow] (reg) -- (factor);
-			\draw[arrow] (factor.east) -- ++(0.45,0) |- (isam.south);
+
+			% factor graph to backend
+			\draw[arrow] (factor.east) -- (isam.west);
+
+			% SLAM output
 			\draw[arrow] (isam) -- (corrected);
-			\draw[arrow] (corrected.south) -- ++(0,-1.40) -| (eval.east);
+
+			% evaluation
+			\draw[arrow] (corrected.south) -- (eval.north);
+
 		\end{tikzpicture}
 	\end{center}
 
@@ -364,7 +382,6 @@
 	The replay is deliberately online. Nodes subscribe to ROS topics in time order, the registration node queries NAS-GS only at candidate poses, and iSAM2 receives only gated Pose3 factors.
 	}
 \end{frame}
-
 %------------------------------------------------
 
 \begin{frame}
@@ -699,9 +716,9 @@
 	\framesubtitle{The real replay has stronger appearance mismatch than the DAVE route}
 
 	\begin{columns}[T]
-		\begin{column}{0.31\textwidth}
+		\begin{column}{0.35\textwidth}
 			\storycard{ICLCream}{ICLBlue}{Recorded offshore}
-			{Live sonar from the 151216 replay.}
+			{Live sonar from the replay.}
 			\vspace{1mm}
 			\includegraphics[width=\textwidth]{offshore_evidence_live_frame517.png}
 		\end{column}
@@ -727,7 +744,7 @@
 	\framesubtitle{The method transfers, but the real-scene case exposes z and appearance limits}
 
 	\begin{center}
-		\includegraphics[height=0.64\textheight,keepaspectratio]{offshore_current_online_render_3d.png}
+		\includegraphics[height=0.84\textheight,keepaspectratio]{offshore_current_online_render_3d.png}
 	\end{center}
 \end{frame}
 
