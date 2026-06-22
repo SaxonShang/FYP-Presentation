@@ -95,6 +95,63 @@
 %------------------------------------------------
 
 \begin{frame}
+	\frametitle{Research Gap: Renderable Sonar Maps Inside SLAM}
+	\framesubtitle{What the literature gives, and what this project adds}
+
+	\vspace{-1mm}
+	\begin{columns}[T]
+		\begin{column}{0.31\textwidth}
+			{\small\textbf{Sonar SLAM}}
+			\vspace{1mm}
+			\begin{itemize}
+				\setlength{\itemsep}{0.8mm}
+				\scriptsize
+				\item Uses sonar features, occupancy maps, or image factors to reduce drift.
+				\item Still depends on difficult acoustic data association.
+				\item Examples: Westman, Li, McConnell, Aqua-SLAM.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.31\textwidth}
+			{\small\textbf{3DGS SLAM}}
+			\vspace{1mm}
+			\begin{itemize}
+				\setlength{\itemsep}{0.8mm}
+				\scriptsize
+				\item Uses Gaussian maps for dense tracking and reconstruction.
+				\item Mostly assumes camera or RGB-D observations.
+				\item Examples: Gaussian-SLAM, GS-SLAM, RTG-SLAM, SemGauss-SLAM.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.31\textwidth}
+			{\small\textbf{Underwater / sonar GS}}
+			\vspace{1mm}
+			\begin{itemize}
+				\setlength{\itemsep}{0.8mm}
+				\scriptsize
+				\item Learns renderable underwater or sonar-like scene models.
+				\item Mainly evaluated as reconstruction or rendering.
+				\item Examples: NAS-GS, Aqua-Splat, SeaSplat, WaterSplatting, UW-GS.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+
+	\vspace{3mm}
+	\begin{center}
+		\setlength{\fboxsep}{4pt}
+		\fcolorbox{ICLBlue}{ICLCream}{%
+			\begin{minipage}{0.90\textwidth}
+				\centering
+				{\small\textbf{Missing bridge}}\par\vspace{0.5mm}
+				{\scriptsize
+				Use a trained sonar Gaussian map as an online measurement model:
+				candidate Pose3 \(\rightarrow\) NAS-GS render \(\rightarrow\) live-sonar consistency check \(\rightarrow\) gated Pose3 factor in iSAM2.}
+			\end{minipage}}
+	\end{center}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
 	\frametitle{NAS-GS: Noise-Aware Sonar Gaussian Splatting}
 	\framesubtitle{A renderable sonar measurement model reference}
 
@@ -157,7 +214,7 @@
 
 			\vspace{2mm}
 			\begin{center}
-				\includegraphics[width=0.92\linewidth,height=0.28\textheight,keepaspectratio]{slide_render_consistency_sonar_map.png}
+				\includegraphics[width=0.92\linewidth,height=0.28\textheight,keepaspectratio]{slide_posegraph_sonar_map.png}
 			\end{center}
 		\end{column}
 		\begin{column}{0.31\textwidth}
@@ -166,7 +223,7 @@
 
 			\vspace{2mm}
 			\begin{center}
-				\includegraphics[width=0.92\linewidth,height=0.28\textheight,keepaspectratio]{slide_render_consistency_live_sonar.png}
+				\includegraphics[width=0.92\linewidth,height=0.28\textheight,keepaspectratio]{slide_posegraph_live_sonar.png}
 			\end{center}
 		\end{column}
 		\begin{column}{0.31\textwidth}
@@ -179,87 +236,6 @@
 			\end{center}
 		\end{column}
 	\end{columns}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-	\frametitle{Simulation Platform: DAVE In Docker}
-	\framesubtitle{Repeatable sonar, IMU, DVL, and ground-truth recording}
-
-	\begin{columns}[T]
-		\begin{column}{0.44\textwidth}
-			{\normalsize\textbf{Docker setting and robot model}}
-			\vspace{0.8mm}
-			\begin{itemize}
-				\setlength{\itemsep}{1.0mm}
-				\scriptsize
-				\item CUDA-enabled Docker container.
-				\item DAVE with ROS Noetic and Gazebo.
-				\item BlueROV2 vehicle model.
-				\item Sensors recorded: sonar, IMU, DVL, odometry, and ground truth.
-			\end{itemize}
-
-			\vspace{3mm}
-			{\normalsize\textbf{Custom scene description}}
-			\vspace{0.8mm}
-			\begin{itemize}
-				\setlength{\itemsep}{1.0mm}
-				\scriptsize
-				\item A fixed underwater target structure creates repeatable sonar returns.
-				\item Pass A, Pass A revisit, and Pass B use controlled waypoint routes.
-				\item Sonar field of view, range, beam pattern, and noise are explicitly set.
-			\end{itemize}
-		\end{column}
-		\begin{column}{0.52\textwidth}
-			\begin{center}
-				\includegraphics[width=0.70\linewidth,height=0.3\textheight,keepaspectratio]{dave_gazebo_scene_overview.jpg}
-				\hfill
-				\includegraphics[width=0.70\linewidth,height=0.3\textheight,keepaspectratio]{dave_gazebo_target_scene.jpg}
-
-				\vspace{3mm}
-				\includegraphics[width=0.70\linewidth,height=0.3\textheight,keepaspectratio]{dave_gazebo_recording_vehicle.jpg}
-			\end{center}
-		\end{column}
-	\end{columns}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-	\frametitle{Simulation Path Recording}
-	\framesubtitle{Pass A trains the map; Pass B reuses the start point but follows a hard revisit path}
-
-	\vspace{-1mm}
-	\begin{columns}[T]
-		\begin{column}{0.64\textwidth}
-			\begin{center}
-				\includegraphics[width=\linewidth,height=0.73\textheight,keepaspectratio]{passA_passB_route_top_view_slidecrop.png}
-			\end{center}
-		\end{column}
-		\begin{column}{0.32\textwidth}
-			\begin{center}
-				\includegraphics[width=\linewidth,height=0.73\textheight,keepaspectratio]{appendix_passA_recorded_sonar_contact_sheet.png}
-			\end{center}
-		\end{column}
-	\end{columns}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-	\frametitle{From Simulated Geometry To NAS-GS Map}
-	\framesubtitle{The learned map}
-
-	\vspace{-1mm}
-	{\footnotesize
-	The two rows use the same top, side, and oblique projections. They differ because the DAVE row shows the full simulated target geometry, while the NAS-GS row shows Gaussian centres learned only from sonar-visible acoustic returns.
-	}
-
-	\vspace{1mm}
-	\begin{center}
-		\includegraphics[width=0.99\textwidth,height=0.69\textheight,keepaspectratio]{passA_dave_vs_nasgs_sixpanel_slide.png}
-	\end{center}
 \end{frame}
 
 %------------------------------------------------
@@ -438,7 +414,7 @@
 					\draw[->, line width=0.8pt, draw=ICLBlue] (pose) -- (server);
 				\end{tikzpicture}
 				\vspace{1mm}
-				\includegraphics[width=0.95\linewidth,height=0.23\textheight,keepaspectratio]{slide_render_consistency_sonar_map.png}
+				\includegraphics[width=0.95\linewidth,height=0.23\textheight,keepaspectratio]{slide_step2_random_rendered_sonar.png}
 			\end{center}
 			{\scriptsize The output is a rendered sonar image for the proposed robot pose.}
 		\end{column}
@@ -465,14 +441,14 @@
 				\end{column}
 			\end{columns}
 			\vspace{1mm}
-			{\scriptsize Strong return overlap and low residual image difference.}
+			{\scriptsize Frame 24 selects rendered frame 24 and passes the score gate.}
 			\vspace{0.5mm}
 
 			{\tiny
 			\begin{tabular}{@{}ll@{}}
-				score gate & \(s \geq 0.08\), pass\\
-				pose gate & \(\Delta xy < 5\) m and \(\Delta z < 8\) m, pass\\
-				replay evidence & 30 accepted factors from 36 scored keyframes
+				score gate & \(s=0.926 \geq 0.08\), pass\\
+				pose gate & shift \(=0.048\) m, pass\\
+				replay evidence & published as a Pose3 registration factor
 			\end{tabular}}
 		\end{column}
 		\begin{column}{0.47\textwidth}
@@ -489,14 +465,14 @@
 				\end{column}
 			\end{columns}
 			\vspace{1mm}
-			{\scriptsize Visible structures do not agree, so no graph factor is created.}
+			{\scriptsize Frame 228 selects rendered frame 216 but falls just below threshold.}
 			\vspace{0.5mm}
 
 			{\tiny
 			\begin{tabular}{@{}ll@{}}
-				score gate & \(s < 0.08\), fail\\
-				support gate & bright-return overlap inconsistent, fail\\
-				replay evidence & 447 rejected events, including 6 score failures
+				score gate & \(s=0.0799 < 0.08\), fail\\
+				edge check & best candidate on search edge\\
+				replay evidence & one of 6 score-below-threshold events
 			\end{tabular}}
 		\end{column}
 	\end{columns}
@@ -620,6 +596,87 @@
 
 %------------------------------------------------
 
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Simulation Platform: DAVE In Docker}
+	\framesubtitle{Repeatable sonar, IMU, DVL, and ground-truth recording}
+
+	\begin{columns}[T]
+		\begin{column}{0.44\textwidth}
+			{\normalsize\textbf{Docker setting and robot model}}
+			\vspace{0.8mm}
+			\begin{itemize}
+				\setlength{\itemsep}{1.0mm}
+				\scriptsize
+				\item CUDA-enabled Docker container.
+				\item DAVE with ROS Noetic and Gazebo.
+				\item BlueROV2 vehicle model.
+				\item Sensors recorded: sonar, IMU, DVL, odometry, and pose ground truth.
+			\end{itemize}
+
+			\vspace{3mm}
+			{\normalsize\textbf{Custom scene description}}
+			\vspace{0.8mm}
+			\begin{itemize}
+				\setlength{\itemsep}{1.0mm}
+				\scriptsize
+				\item A fixed underwater target structure creates repeatable sonar returns.
+				\item Pass A, Pass A revisit, and Pass B use controlled waypoint routes.
+				\item Sonar field of view, range, beam pattern, and noise are explicitly set.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.52\textwidth}
+			\begin{center}
+				\includegraphics[width=0.70\linewidth,height=0.3\textheight,keepaspectratio]{dave_gazebo_scene_overview.jpg}
+				\hfill
+				\includegraphics[width=0.70\linewidth,height=0.3\textheight,keepaspectratio]{dave_gazebo_target_scene.jpg}
+
+				\vspace{3mm}
+				\includegraphics[width=0.70\linewidth,height=0.3\textheight,keepaspectratio]{dave_gazebo_recording_vehicle.jpg}
+			\end{center}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Simulation Path Recording}
+	\framesubtitle{Pass A trains the map; Pass B reuses the start point but follows a hard revisit path}
+
+	\vspace{-1mm}
+	\begin{columns}[T]
+		\begin{column}{0.64\textwidth}
+			\begin{center}
+				\includegraphics[width=\linewidth,height=0.73\textheight,keepaspectratio]{passA_passB_route_top_view_slidecrop.png}
+			\end{center}
+		\end{column}
+		\begin{column}{0.32\textwidth}
+			\begin{center}
+				\includegraphics[width=\linewidth,height=0.73\textheight,keepaspectratio]{appendix_passA_recorded_sonar_contact_sheet.png}
+			\end{center}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{From Simulated Geometry To NAS-GS Map}
+	\framesubtitle{The learned map}
+
+	\vspace{-1mm}
+	{\footnotesize
+	The two rows use the same top, side, and oblique projections. They differ because the DAVE row shows the full simulated target geometry, while the NAS-GS row shows Gaussian centres learned only from sonar-visible acoustic returns.
+	}
+
+	\vspace{1mm}
+	\begin{center}
+		\includegraphics[width=0.99\textwidth,height=0.69\textheight,keepaspectratio]{passA_dave_vs_nasgs_sixpanel_slide.png}
+	\end{center}
+\end{frame}
 \begin{frame}
 	\frametitle{Experimental Design}
 	\framesubtitle{Recorded data, map training, and replay policy}
@@ -732,19 +789,19 @@
 			\storycard{ICLCream}{ICLBlue}{Recorded offshore}
 			{Live sonar from the replay.}
 			\vspace{1mm}
-			\includegraphics[width=\textwidth]{offshore_evidence_live_frame517.png}
+			\includegraphics[width=\textwidth]{offshore_evidence_live_frame864.png}
 		\end{column}
 		\begin{column}{0.31\textwidth}
 			\storycard{ICLCream}{ICLBlue}{Rendered BP library}
 			{NAS-GS render with the offshore BP library.}
 			\vspace{1mm}
-			\includegraphics[width=\textwidth]{offshore_evidence_rendered_bp_frame517.png}
+			\includegraphics[width=\textwidth]{offshore_evidence_rendered_bp_frame864.png}
 		\end{column}
 		\begin{column}{0.31\textwidth}
 			\storycard{ICLCream}{ICLBlue}{Rendered no-BP library}
 			{No-BP render used for appearance comparison.}
 			\vspace{1mm}
-			\includegraphics[width=\textwidth]{offshore_evidence_rendered_nobp_frame517.png}
+			\includegraphics[width=\textwidth]{offshore_evidence_rendered_nobp_frame864.png}
 		\end{column}
 	\end{columns}
 \end{frame}
