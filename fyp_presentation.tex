@@ -146,7 +146,6 @@
 
 \begin{frame}
 	\frametitle{Research Gap: Sonar SLAM + 3DGS}
-	\framesubtitle{Three active research lines, one missing connection}
 
 	\vspace{1mm}
 	\begin{columns}[T]
@@ -327,17 +326,17 @@
 	\begin{columns}[T]
 		\begin{column}{0.44\textwidth}
 			\storycard{ICLBlue!6}{ICLBlue}{Local single}
-			{Compact \(x,y,z,\psi\) search around the live Pose3 baseline. Main same-route policy for Pass A and offshore replay.}
+			{Compact \(x,y,z,\psi\) search around the live Pose3 baseline for nearby pose correction.}
 		\end{column}
 		\begin{column}{0.44\textwidth}
 			\storycard{ICLCream}{ICLBlue}{Route-progress revisit}
-			{Sequence render search guided by route progress and drift-prior checks. Used for revisit cases such as Pass B.}
+			{Ordered sequence render search guided by route progress and drift-prior checks.}
 		\end{column}
 	\end{columns}
 
 	\vspace{3mm}
 	{\footnotesize
-	Gating is separate from the mode. Relaxed gating accepts useful factors earlier, while score and structure checks still prevent weak render matches from entering the graph.
+	Gating is configured separately from the search mode. Score and structure checks prevent weak render matches from entering the graph.
 	}
 \end{frame}
 
@@ -539,7 +538,7 @@
 	\begin{columns}[T]
 		\begin{column}{0.47\textwidth}
 			{\scriptsize\textbf{Score calculation}}\\[-0.5mm]
-			{\tiny Intensity normalisation, NCC-style similarity, residual penalty, and bright-return overlap are combined into one render score. Relaxed threshold \(s_{\min}=0.08\).}
+			{\tiny Intensity normalisation, NCC-style similarity, residual penalty, and bright-return overlap are combined into one render score. Minimum threshold \(s_{\min}=0.08\).}
 		\end{column}
 		\begin{column}{0.47\textwidth}
 			{\scriptsize\textbf{Gates before insertion}}\\[-0.5mm]
@@ -617,41 +616,25 @@
 
 	\vspace{0.5mm}
 	\begin{columns}[T]
-		\begin{column}{0.40\textwidth}
+		\begin{column}{0.43\textwidth}
 			{\small\textbf{Route prior}}
 			{\scriptsize
-			\[
-			s_t=\frac{t}{N_B-1}, \qquad
-			i_t=\mathrm{round}\!\left(s_t(N_A-1)\right)
-			\]
-			\textit{Variables:} \(t\) is the current revisit frame, \(N_A,N_B\) are the map and revisit route lengths, \(s_t\) is normalised progress, and \(i_t\) is the selected Pass A map index.
-			\vspace{0.6mm}
 			\begin{itemize}
-				\setlength{\itemsep}{0.45mm}
-				\item This avoids nearest-pose lookup when route direction changes.
-				\item It gives a map window, not the final factor pose.
+				\setlength{\itemsep}{1.2mm}
+				\item Express the current revisit frame as normalised route progress from 0 to 1.
+				\item Select the corresponding ordered window on the mapping route instead of trusting the nearest drifted pose.
+				\item Use this window only as a proposal; sequence render evidence selects the final factor pose.
 			\end{itemize}
 			}
 		\end{column}
-		\begin{column}{0.56\textwidth}
+		\begin{column}{0.53\textwidth}
 			{\small\textbf{Drift prior}}
-			{\tiny
-			\[
-			\bar{\mathbf e}(d)=\operatorname{PCHIP}
-			\!\left(d_j,\left|\operatorname{smooth}_{21}(\mathbf e_j)\right|\right),
-			\qquad \mathbf e_j=\mathrm{GT}_{A,j}-\mathrm{base}_{A,j}
-			\]
-			\[
-			\mathbf r=\max\!\left(0,\left|\Delta\mathbf T_B\right|-\bar{\mathbf e}(d_B)\right)
-			\]
-			\textit{Variables:} \(d_j\) is accumulated Pass A baseline XY distance; \(\mathbf e_j=[e_x,e_y,e_z,e_\psi]\) is its aligned GT correction; \(\bar{\mathbf e}(d)\) is the expected absolute correction; \(\Delta\mathbf T_B\) is a Pass B candidate minus its live drifted pose.
-			\vspace{0.4mm}
+			{\scriptsize
 			\begin{itemize}
-				\setlength{\itemsep}{0.25mm}
-				\item Align Pass A baseline and GT, then smooth over 21 samples (about 10.7 s or 1.5 m): enough to suppress local jitter while retaining accumulated drift.
-				\item Fit a component-wise PCHIP curve against travelled XY distance and query it at the current Pass B distance.
-				\item Manual transfer slack on the \emph{excess}, not the total correction: 3.0 m XY, 2.5 m z, and 0.70 rad yaw.
-				\item Absolute magnitudes transfer across route direction; NAS-GS score still selects the final pose.
+				\setlength{\itemsep}{1.0mm}
+				\item Learn expected drift magnitude from aligned baseline-to-GT errors, using 21-sample smoothing and a PCHIP curve over travelled distance.
+				\item Query absolute XY, z, and yaw magnitudes at the current distance, allowing transfer when route direction changes.
+				\item Reject only excess beyond the learned envelope: 3.0 m XY, 2.5 m z, or 0.70 rad yaw. NAS-GS selects the pose inside it.
 			\end{itemize}
 			}
 		\end{column}
@@ -752,35 +735,39 @@
 			\toprule
 			Case & Images & Sonar setting & NAS-GS map & Replay policy \\
 			\midrule
-			Pass A & 477 & \(90^\circ\), 20 m & Pass A 900k/i1000, PSNR 35.77 dB & Relaxed local single \\
-			Pass A revisit & 431 & \(90^\circ\), 20 m & Pass A 900k/i1000, PSNR 35.77 dB & Relaxed local; route-progress check \\
-			Pass B revisit & 496 & \(90^\circ\), 20 m & Pass A 900k/i1000, PSNR 35.77 dB & Relaxed route-progress sequence \\
-			Offshore & 1139 & \(120^\circ\), 12 m & Offshore 750k/i800, BP PSNR 33.68 dB & Relaxed local single \\
+			Pass A & 477 & \(90^\circ\), 20 m & Pass A 900k/i1000, PSNR 35.77 dB & Local single \\
+			Pass A revisit & 431 & \(90^\circ\), 20 m & Pass A 900k/i1000, PSNR 35.77 dB & Local single; route-progress check \\
+			Pass B revisit & 496 & \(90^\circ\), 20 m & Pass A 900k/i1000, PSNR 35.77 dB & Route-progress sequence \\
+			Offshore & 1139 & \(120^\circ\), 12 m & Offshore 750k/i800, PSNR 33.68 dB & Local single \\
 			\bottomrule
 		\end{tabular}
 	\end{table}
 
 	\vspace{2mm}
-	\begin{columns}[T]
-		\begin{column}{0.47\textwidth}
-			\textbf{Baseline setting}\\[-0.5mm]
-			{\scriptsize IMU/DVL Pose3 replay with NAS-GS factors disabled. Noise is injected as DVL scale \(1.10\), body bias \((0.030,-0.025,0.0)\) m/s, yaw drift \(8.0{\times}10^{-4}\) rad/s, and 2.5 s DVL dropout every 35 s after 45 s.}
-		\end{column}
-		\begin{column}{0.47\textwidth}
-			\textbf{Relaxed gating}\\[-0.5mm]
-			{\scriptsize Minimum render score 0.08, maximum accepted correction 5 m in \(x,y\) and 8 m in \(z\), followed by render-validity and factor-consistency checks.}
-		\end{column}
-	\end{columns}
+	\textbf{Baseline setting}\\[-0.5mm]
+	{\scriptsize IMU/DVL Pose3 replay with NAS-GS factors disabled. Noise is injected as DVL scale \(1.10\), body bias \((0.030,-0.025,0.0)\) m/s, yaw drift \(8.0{\times}10^{-4}\) rad/s, and 2.5 s DVL dropout every 35 s after 45 s.}
 \end{frame}
 
 %------------------------------------------------
 
 \begin{frame}
 	\frametitle{Pass A Policy Selection}
-	\framesubtitle{Rendered BP library with runtime no-BP was the most reliable local policy}
+	\framesubtitle{The BP-rendered library with runtime no-BP scoring was selected}
 
 	\begin{center}
-		\includegraphics[width=0.9\textwidth]{passA_bp_vs_nobp_online_render_comparison.png}
+		\setlength{\fboxsep}{4pt}
+		\fcolorbox{ICLBlue}{ICLCream}{%
+			\begin{minipage}{0.90\textwidth}
+				\footnotesize
+				\textbf{BP means beam-pattern rendering.}
+				It applies the sonar's angular transmit/receive sensitivity as an intensity weighting, attenuating returns away from the central beam.
+				\textbf{no-BP} omits this directional modulation.
+			\end{minipage}}
+	\end{center}
+	\vspace{-0.5mm}
+
+	\begin{center}
+		\includegraphics[width=0.82\textwidth,trim=0 0 0 112,clip]{passA_bp_vs_nobp_online_render_comparison.png}
 	\end{center}
 \end{frame}
 
@@ -831,13 +818,13 @@
 
 \begin{frame}
 	\frametitle{Offshore Dataset: Real Sonar Validation}
-	\framesubtitle{151216 wind-turbine inspection sequence}
+	\framesubtitle{Wind-turbine inspection sequence}
 
 	\begin{columns}[T]
 		\begin{column}{0.63\textwidth}
 			\begin{itemize}\small
 				\setlength{\itemsep}{0.8mm}
-				\item Real 151216 sequence recorded around an offshore wind-turbine foundation with a Tritech Gemini 1200ik imaging sonar.
+				\item Real sequence recorded around an offshore wind-turbine foundation with a Tritech Gemini 1200ik imaging sonar.
 				\item More than 20 minutes and \textbf{1,139 frames} from the surface towards the seabed, using a $120^\circ$ field of view and 12 m range.
 				\item Sidelobe, speckle, multipath, and strong vertical motion make this a demanding real-acoustic transfer case.
 			\end{itemize}
@@ -961,19 +948,19 @@
 			\storycard{ICLCream}{ICLBlue}{Current limitations}
 			{The remaining weaknesses define the operating boundary.}
 			\begin{itemize}
-				\item Reverse-route revisit remains sensitive to route-progress endpoints and large drift.
-				\item Wide candidate searches require stronger temporal evidence before large corrections are safe.
-				\item Offshore evaluation uses Aqua-SLAM as the reference rather than independent survey ground truth.
+				\item The current system is evaluated through live replay and does not yet estimate a complete 6-DoF correction.
+				\item The NAS-GS Gaussian map is fixed during localisation and cannot adapt to map or appearance changes.
+				\item Route-progress registration provides only limited improvement under the most difficult revisit conditions.
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.48\textwidth}
 			\storycard{ICLBlue!6}{ICLBlue}{Key future work}
 			{Each direction targets one demonstrated limitation.}
 			\begin{itemize}
-				\item Develop sequence-level optimisation for robust large-drift recovery.
-				\item Stabilise route-progress estimation at reverse-route boundaries.
-				\item Retrain NAS-GS using corrected trajectories and validate against an independent reference.
-				\item Progress from live replay to onboard timing, calibration, and safety trials.
+				\item Move from live replay to onboard timing, calibration, and safety trials with 6-DoF estimation.
+				\item Retrain NAS-GS on corrected trajectories and validate against an independent reference.
+				\item Use sequence-level optimisation for robust large-drift recovery.
+				\item Add differentiable sonar-intensity error for continuous pose refinement beyond discrete gates.
 			\end{itemize}
 		\end{column}
 	\end{columns}
