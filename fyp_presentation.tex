@@ -60,33 +60,48 @@
 %------------------------------------------------
 
 \begin{frame}
-	\frametitle{Why Underwater Sonar SLAM Is Hard}
-	\framesubtitle{Can a renderable sonar map provide online correction factors?}
+	\frametitle{SLAM and 3D Gaussian Splatting Mapping}
+	\framesubtitle{Two complementary building blocks}
 
 	\begin{columns}[T]
-		\begin{column}{0.47\textwidth}
-			\storycard{ICLBlue!6}{ICLBlue}{1. Problem setting}
-			{Underwater robots cannot use GNSS. IMU/DVL odometry therefore drifts over time.}
+		\begin{column}{0.38\textwidth}
+			\onslide<1->
+			{\large\color{ICLBlue}\textbf{Simultaneous Localisation and Mapping}}
 
-			\vspace{1.8mm}
-			\storycard{ICLBlue!6}{ICLBlue}{2. Sensor limitation}
-			{Sonar works underwater, but the image evidence is sparse, ambiguous, and viewpoint-dependent.}
+			\vspace{1mm}
+			\begin{center}
+			\begin{tikzpicture}[>=stealth, every node/.style={font=\scriptsize}]
+				\node[draw=ICLBlue, fill=ICLBlue!6, rounded corners=2pt,
+					minimum width=20mm, minimum height=8mm] (sensor) at (0,0) {Sensor data};
+				\node[draw=ICLBlue, fill=white, rounded corners=2pt,
+					minimum width=24mm, minimum height=8mm] (graph) at (3.2,0) {Pose graph};
+				\draw[->, very thick, ICLBlue] (sensor) -- (graph);
+				\node[circle, draw=ICLBlue, fill=ICLBlue!15, inner sep=2pt] (p1) at (2.1,-1.25) {};
+				\node[circle, draw=ICLBlue, fill=ICLBlue!15, inner sep=2pt] (p2) at (3.0,-1.65) {};
+				\node[circle, draw=ICLBlue, fill=ICLBlue!15, inner sep=2pt] (p3) at (4.0,-1.25) {};
+				\draw[very thick, ICLBlue] (p1) -- (p2) -- (p3);
+				\draw[->, thick, ICLBlue] (graph) -- (3.2,-0.95);
+				\node[font=\tiny, text=ICLDarkBlue] at (3.05,-1.95) {estimated trajectory and map frame};
+			\end{tikzpicture}
+			\end{center}
 
-			\vspace{1.8mm}
-			\storycard{ICLBlue!6}{ICLBlue}{3. Sonar-based SLAM limitation}
-			{Geometric matching becomes fragile under sonar noise and repeated acoustic structure.}
+			\begin{itemize}\small
+				\setlength{\itemsep}{0.4mm}
+				\item Estimates robot trajectory while building or using a map.
+				\item Fuses motion and observations to reduce accumulated drift.
+			\end{itemize}
 		\end{column}
-		\begin{column}{0.47\textwidth}
-			\storycard{ICLCream}{ICLBlue}{4. Key insight from 3DGS}
-			{A learned Gaussian scene can predict the sonar view from a candidate pose.}
 
-			\vspace{1.8mm}
-			\storycard{ICLCream}{ICLBlue}{5. Gap}
-			{3DGS is rarely used as an online sonar measurement model inside SLAM.}
+		\begin{column}{0.58\textwidth}
+			\uncover<2->{%
+			\begin{minipage}{\linewidth}
+			{\large\color{ICLBlue}\textbf{3D Gaussian Splatting Mapping}}
 
-			\vspace{1.8mm}
-			\storycard{ICLCream}{ICLBlue}{6. Project idea}
-			{Use render consistency between live sonar and 3D Gaussian Splatting prediction as a SLAM constraint.}
+			\vspace{1mm}
+			\begin{center}
+				\includegraphics[width=\linewidth]{3dgs_novel_view_synthesis.png}
+			\end{center}
+			\end{minipage}}
 		\end{column}
 	\end{columns}
 
@@ -95,56 +110,96 @@
 %------------------------------------------------
 
 \begin{frame}
-	\frametitle{Research Gap: Renderable Sonar Maps Inside SLAM}
-	\framesubtitle{What the literature gives, and what this project adds}
+	\frametitle{Why Underwater Sonar SLAM Is Hard}
+	\framesubtitle{Can a renderable sonar map provide online correction factors?}
 
-	\vspace{-1mm}
 	\begin{columns}[T]
-		\begin{column}{0.31\textwidth}
-			{\small\textbf{Sonar SLAM}}
-			\vspace{1mm}
-			\begin{itemize}
-				\setlength{\itemsep}{0.8mm}
-				\scriptsize
-				\item Uses sonar features, occupancy maps, or image factors to reduce drift.
-				\item Still depends on difficult acoustic data association.
-				\item Examples: Westman, Li, McConnell, Aqua-SLAM.
-			\end{itemize}
+		\begin{column}{0.47\textwidth}
+			\uncover<1->{\storycard{ICLBlue!6}{ICLBlue}{1. Problem setting}
+			{Underwater robots cannot use GNSS. IMU/DVL odometry therefore drifts over time.}}
+
+			\vspace{1.8mm}
+			\uncover<2->{\storycard{ICLBlue!6}{ICLBlue}{2. Sensor limitation}
+			{Sonar works underwater, but the image evidence is sparse, ambiguous, and viewpoint-dependent.}}
+
+			\vspace{1.8mm}
+			\uncover<3->{\storycard{ICLBlue!6}{ICLBlue}{3. Sonar-based SLAM limitation}
+			{Geometric matching becomes fragile under sonar noise and repeated acoustic structure.}}
 		\end{column}
-		\begin{column}{0.31\textwidth}
-			{\small\textbf{3DGS SLAM}}
-			\vspace{1mm}
-			\begin{itemize}
-				\setlength{\itemsep}{0.8mm}
-				\scriptsize
-				\item Uses Gaussian maps for dense tracking and reconstruction.
-				\item Mostly assumes camera or RGB-D observations.
-				\item Examples: Gaussian-SLAM, GS-SLAM, RTG-SLAM, SemGauss-SLAM.
-			\end{itemize}
-		\end{column}
-		\begin{column}{0.31\textwidth}
-			{\small\textbf{Underwater / sonar GS}}
-			\vspace{1mm}
-			\begin{itemize}
-				\setlength{\itemsep}{0.8mm}
-				\scriptsize
-				\item Learns renderable underwater or sonar-like scene models.
-				\item Mainly evaluated as reconstruction or rendering.
-				\item Examples: NAS-GS, Aqua-Splat, SeaSplat, WaterSplatting, UW-GS.
-			\end{itemize}
+		\begin{column}{0.47\textwidth}
+			\uncover<4->{\storycard{ICLCream}{ICLBlue}{4. Key insight from 3DGS}
+			{A learned Gaussian scene can predict the sonar view from a candidate pose.}}
+
+			\vspace{1.8mm}
+			\uncover<5->{\storycard{ICLCream}{ICLBlue}{5. Gap}
+			{3DGS is rarely used as an online sonar measurement model inside SLAM.}}
+
+			\vspace{1.8mm}
+			\uncover<6->{\storycard{ICLCream}{ICLBlue}{6. Project idea}
+			{Use render consistency between live sonar and 3D Gaussian Splatting prediction as a SLAM constraint.}}
 		\end{column}
 	\end{columns}
 
-	\vspace{3mm}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Research Gap: Sonar SLAM + 3DGS}
+	\framesubtitle{Three active research lines, one missing connection}
+
+	\vspace{1mm}
+	\begin{columns}[T]
+		\begin{column}{0.31\textwidth}
+			\uncover<1->{%
+			\begin{minipage}{\linewidth}
+			{\small\textbf{Underwater SLAM}}
+			\begin{itemize}
+				\setlength{\itemsep}{0.6mm}
+				\scriptsize
+				\item Fuses sonar, camera, IMU, and DVL.
+				\item Uses feature, image, or sensor factors.
+			\end{itemize}
+			{\tiny Li et al. 2018; Cardaillac and Ludvigsen 2023; Xu et al. 2025.}
+			\end{minipage}}
+		\end{column}
+		\begin{column}{0.31\textwidth}
+			\uncover<2->{%
+			\begin{minipage}{\linewidth}
+			{\small\textbf{3DGS SLAM}}
+			\begin{itemize}
+				\setlength{\itemsep}{0.6mm}
+				\scriptsize
+				\item Uses Gaussian maps for tracking and reconstruction.
+				\item Current systems are visual or LiDAR-based.
+			\end{itemize}
+			{\tiny Matsuki et al. 2024; Yan et al. 2024; Peng et al. 2024; Zhu et al. 2025.}
+			\end{minipage}}
+		\end{column}
+		\begin{column}{0.31\textwidth}
+			\uncover<3->{%
+			\begin{minipage}{\linewidth}
+			{\small\textbf{Underwater 3DGS}}
+			\begin{itemize}
+				\setlength{\itemsep}{0.6mm}
+				\scriptsize
+				\item Models underwater camera or sonar appearance.
+				\item Focuses on reconstruction and rendering, not SLAM.
+			\end{itemize}
+			{\tiny Ling et al. 2025; Yang et al. 2025; Li et al. 2025; Xu et al. 2026.}
+			\end{minipage}}
+		\end{column}
+	\end{columns}
+
+	\vspace{5mm}
+	\onslide<4->
 	\begin{center}
-		\setlength{\fboxsep}{4pt}
+		\setlength{\fboxsep}{5pt}
 		\fcolorbox{ICLBlue}{ICLCream}{%
 			\begin{minipage}{0.90\textwidth}
 				\centering
-				{\small\textbf{Missing bridge}}\par\vspace{0.5mm}
-				{\scriptsize
-				Use a trained sonar Gaussian map as an online measurement model:
-				candidate Pose3 \(\rightarrow\) NAS-GS render \(\rightarrow\) live-sonar consistency check \(\rightarrow\) gated Pose3 factor in iSAM2.}
+				{\small\textbf{Missing integration in the reviewed literature}}\par\vspace{0.8mm}
+				{\footnotesize Live sonar \(\rightarrow\) sonar 3DGS candidate render \(\rightarrow\) gated Pose3 factor \(\rightarrow\) iSAM2.}
 			\end{minipage}}
 	\end{center}
 \end{frame}
@@ -209,6 +264,7 @@
 
 	\begin{columns}[T]
 		\begin{column}{0.31\textwidth}
+			\onslide<1->
 			\storycard{ICLBlue!6}{ICLBlue}{Renderable sonar map}
 			{NAS-GS predicts what the sonar should observe from a proposed Pose3 camera pose.}
 
@@ -218,6 +274,7 @@
 			\end{center}
 		\end{column}
 		\begin{column}{0.31\textwidth}
+			\onslide<2->
 			\storycard{ICLBlue!6}{ICLBlue}{Online evidence}
 			{A live sonar frame is compared against rendered candidates around the current drifted pose.}
 
@@ -227,6 +284,7 @@
 			\end{center}
 		\end{column}
 		\begin{column}{0.31\textwidth}
+			\onslide<3->
 			\storycard{ICLBlue!6}{ICLBlue}{Graph correction}
 			{If render similarity and gates pass, the recovered pose is inserted as a Pose3 factor.}
 
@@ -545,7 +603,7 @@
 		]
 			\node[box] (seq) at (0,0) {Pass B\\window};
 			\node[prior] (route) at (2.15,0) {route progress\\selects map window};
-			\node[prior] (drift) at (4.55,0) {drift prior\\sets envelope};
+			\node[prior] (drift) at (4.55,0) {drift prior\\checks envelope};
 			\node[box] (search) at (6.95,0) {sequence\\render search};
 			\node[box] (gate) at (9.10,0) {score\\and gate};
 			\node[box] (factor) at (11.25,0) {Pose3\\factor};
@@ -559,7 +617,7 @@
 
 	\vspace{0.5mm}
 	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
+		\begin{column}{0.40\textwidth}
 			{\small\textbf{Route prior}}
 			{\scriptsize
 			\[
@@ -575,19 +633,25 @@
 			\end{itemize}
 			}
 		\end{column}
-		\begin{column}{0.48\textwidth}
+		\begin{column}{0.56\textwidth}
 			{\small\textbf{Drift prior}}
-			{\scriptsize
+			{\tiny
 			\[
-			T^{cand}_{B,t}=T^{odom}_{B,t}\oplus c_t,\qquad
-			c_t\in\mathcal{E}_{drift}(s_t)
+			\bar{\mathbf e}(d)=\operatorname{PCHIP}
+			\!\left(d_j,\left|\operatorname{smooth}_{21}(\mathbf e_j)\right|\right),
+			\qquad \mathbf e_j=\mathrm{GT}_{A,j}-\mathrm{base}_{A,j}
 			\]
-			\textit{Variables:} \(T^{odom}_{B,t}\) is the live drifted Pose3, \(c_t\) is a sampled correction in \(x,y,z,\psi\), and \(\mathcal{E}_{drift}(s_t)\) is the progress-dependent drift envelope.
-			\vspace{0.6mm}
+			\[
+			\mathbf r=\max\!\left(0,\left|\Delta\mathbf T_B\right|-\bar{\mathbf e}(d_B)\right)
+			\]
+			\textit{Variables:} \(d_j\) is accumulated Pass A baseline XY distance; \(\mathbf e_j=[e_x,e_y,e_z,e_\psi]\) is its aligned GT correction; \(\bar{\mathbf e}(d)\) is the expected absolute correction; \(\Delta\mathbf T_B\) is a Pass B candidate minus its live drifted pose.
+			\vspace{0.4mm}
 			\begin{itemize}
-				\setlength{\itemsep}{0.45mm}
-				\item It is learned from Pass A baseline-to-GT errors.
-				\item It guides search size, not the final accepted pose.
+				\setlength{\itemsep}{0.25mm}
+				\item Align Pass A baseline and GT, then smooth over 21 samples (about 10.7 s or 1.5 m): enough to suppress local jitter while retaining accumulated drift.
+				\item Fit a component-wise PCHIP curve against travelled XY distance and query it at the current Pass B distance.
+				\item Manual transfer slack on the \emph{excess}, not the total correction: 3.0 m XY, 2.5 m z, and 0.70 rad yaw.
+				\item Absolute magnitudes transfer across route direction; NAS-GS score still selects the final pose.
 			\end{itemize}
 			}
 		\end{column}
@@ -766,6 +830,47 @@
 %------------------------------------------------
 
 \begin{frame}
+	\frametitle{Offshore Dataset: Real Sonar Validation}
+	\framesubtitle{151216 wind-turbine inspection sequence}
+
+	\begin{columns}[T]
+		\begin{column}{0.63\textwidth}
+			\begin{itemize}\small
+				\setlength{\itemsep}{0.8mm}
+				\item Real 151216 sequence recorded around an offshore wind-turbine foundation with a Tritech Gemini 1200ik imaging sonar.
+				\item More than 20 minutes and \textbf{1,139 frames} from the surface towards the seabed, using a $120^\circ$ field of view and 12 m range.
+				\item Sidelobe, speckle, multipath, and strong vertical motion make this a demanding real-acoustic transfer case.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.31\textwidth}
+			\storycard{ICLCream}{ICLBlue}{Reference and validation role}
+			{Aqua-SLAM 6-DoF poses supervise NAS-GS and provide the replay reference. This is not independent survey ground truth.}
+		\end{column}
+	\end{columns}
+
+	\vspace{1.5mm}
+	\begin{columns}[T]
+		\begin{column}{0.32\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{offshore_real_frame216.png}\\[-0.5mm]
+			{\scriptsize Frame 216: strong curved return}
+		\end{column}
+		\begin{column}{0.32\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{offshore_real_frame517.png}\\[-0.5mm]
+			{\scriptsize Frame 517: partial return}
+		\end{column}
+		\begin{column}{0.32\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{offshore_real_frame864.png}\\[-0.5mm]
+			{\scriptsize Frame 864: sparse near-range return}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
 	\frametitle{BP versus no-BP on Offshore Data}
 	\framesubtitle{The better rendering mode depends on the recorded sonar appearance}
 
@@ -846,52 +951,29 @@
 
 %------------------------------------------------
 
-\begin{frame}
-	\frametitle{Results Summary}
-	\framesubtitle{The method works best as selective map-aided correction}
-
-	\begin{columns}[T]
-		\begin{column}{0.47\textwidth}
-			\textbf{Evidence}
-			\begin{itemize}
-				\item Pass A shows strong same-route correction from a trained NAS-GS map.
-				\item Pass A revisit confirms the local policy transfers to a newly recorded repeat route.
-				\item Offshore BP replay transfers the same backbone to real sonar appearance.
-				\item Accepted factors are interpretable because each one has a rendered-image explanation.
-			\end{itemize}
-		\end{column}
-		\begin{column}{0.47\textwidth}
-			\textbf{Boundary}
-			\begin{itemize}
-				\item Reverse-route revisit improves on average, but endpoint stability is not solved.
-				\item Wide search needs sequence confirmation before large corrections are trusted.
-				\item Offshore accuracy is reference-consistency against Aqua-SLAM, not independent survey truth.
-			\end{itemize}
-		\end{column}
-	\end{columns}
-
-\end{frame}
-
-%------------------------------------------------
 
 \begin{frame}
-	\frametitle{Future Work}
-	\framesubtitle{The next steps follow directly from the remaining failure modes}
+	\frametitle{Limitations and Future Work}
+	\framesubtitle{The next steps follow directly from the observed failure modes}
 
 	\begin{columns}[T]
 		\begin{column}{0.48\textwidth}
-			\textbf{Algorithm}
+			\storycard{ICLCream}{ICLBlue}{Current limitations}
+			{The remaining weaknesses define the operating boundary.}
 			\begin{itemize}
-				\item Strengthen sequence evidence for large-drift recovery.
-				\item Improve route-progress endpoint stability for reverse revisits.
+				\item Reverse-route revisit remains sensitive to route-progress endpoints and large drift.
+				\item Wide candidate searches require stronger temporal evidence before large corrections are safe.
+				\item Offshore evaluation uses Aqua-SLAM as the reference rather than independent survey ground truth.
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.48\textwidth}
-			\textbf{Validation}
+			\storycard{ICLBlue!6}{ICLBlue}{Key future work}
+			{Each direction targets one demonstrated limitation.}
 			\begin{itemize}
-				\item Retrain or fine-tune NAS-GS with corrected trajectories.
-				\item Repeat offshore tests with an independent reference if available.
-				\item Move from replay to real robot timing, calibration, and safety tests.
+				\item Develop sequence-level optimisation for robust large-drift recovery.
+				\item Stabilise route-progress estimation at reverse-route boundaries.
+				\item Retrain NAS-GS using corrected trajectories and validate against an independent reference.
+				\item Progress from live replay to onboard timing, calibration, and safety trials.
 			\end{itemize}
 		\end{column}
 	\end{columns}
@@ -900,18 +982,15 @@
 %------------------------------------------------
 
 \begin{frame}
-	\frametitle{Conclusion}
-
-	\Large
-	NAS-GS can act as a useful sonar map prior for SLAM.
-
-	\vspace{5mm}
-	\normalsize
-	The implemented system turns render consistency into selective Pose3 registration factors and fuses them with IMU/DVL odometry through iSAM2.
+	\frametitle{Main Contributions}
 
 	\vspace{4mm}
-	It is strongest for same-route and repeated-inspection correction. Route-progress revisit and offshore replay show the method transfers, but large-drift recovery and independent real-world validation remain the main next steps.
-\end{frame}
+	\begin{itemize}
+		\item \textbf{Integrated simulation framework}\quad DAVE data collection, NAS-GS training, and a live ROS Pose3 SLAM system.
+		\item \textbf{Real-data-validated registration policies}\quad Controlled IMU/DVL baselines and gated online-render factors for pose-graph correction.
+		\item \textbf{Foundation for sonar-based 3DGS SLAM}\quad A working connection from renderable sonar maps to incremental iSAM2 constraints.
+	\end{itemize}
+	\end{frame}
 
 %------------------------------------------------
 

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2026.6.17)  19 JUN 2026 20:39
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2026.6.17)  23 JUN 2026 02:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1184,61 +1184,155 @@ File: Images//ICL_Logo_White.pdf Graphic file (type pdf)
  [1
 
 ]
-Underfull \hbox (badness 1097) in paragraph at lines 93--93
+File: Images/fyp//3dgs_novel_view_synthesis.png Graphic file (type bmp)
+<Images/fyp//3dgs_novel_view_synthesis.png>
+
+Overfull \vbox (33.55028pt too high) detected at line 108
+ []
+
+[2
+
+]
+File: Images/fyp//3dgs_novel_view_synthesis.png Graphic file (type bmp)
+<Images/fyp//3dgs_novel_view_synthesis.png>
+
+Overfull \vbox (33.55028pt too high) detected at line 108
+ []
+
+[3
+
+]
+Underfull \hbox (badness 1097) in paragraph at lines 143--143
 []\TU/ImperialSansText(0)/m/n/8 Sonar works underwater, but the image evidence 
 is
  []
 
 
-Underfull \hbox (badness 1810) in paragraph at lines 93--93
+Underfull \hbox (badness 1810) in paragraph at lines 143--143
 []\TU/ImperialSansText(0)/m/n/8 Use render consistency between live sonar and 3
 D
- []
-
-[2
-
-] [3
-
-]
-File: Images/fyp//nasgs_pipeline_overview.png Graphic file (type bmp)
-<Images/fyp//nasgs_pipeline_overview.png>
-
-Overfull \vbox (5.09157pt too high) detected at line 194
  []
 
 [4
 
 ]
-Underfull \hbox (badness 6252) in paragraph at lines 239--239
-[]\TU/ImperialSansText(0)/m/n/8 NAS-GS predicts what the sonar
+Underfull \hbox (badness 1097) in paragraph at lines 143--143
+[]\TU/ImperialSansText(0)/m/n/8 Sonar works underwater, but the image evidence 
+is
  []
 
 
-Underfull \hbox (badness 6641) in paragraph at lines 239--239
-\TU/ImperialSansText(0)/m/n/8 should observe from a proposed
+Underfull \hbox (badness 1810) in paragraph at lines 143--143
+[]\TU/ImperialSansText(0)/m/n/8 Use render consistency between live sonar and 3
+D
+ []
+
+[5
+
+]
+Underfull \hbox (badness 1097) in paragraph at lines 143--143
+[]\TU/ImperialSansText(0)/m/n/8 Sonar works underwater, but the image evidence 
+is
  []
 
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 239--239
+Underfull \hbox (badness 1810) in paragraph at lines 143--143
+[]\TU/ImperialSansText(0)/m/n/8 Use render consistency between live sonar and 3
+D
+ []
+
+[6
+
+]
+Underfull \hbox (badness 1097) in paragraph at lines 143--143
+[]\TU/ImperialSansText(0)/m/n/8 Sonar works underwater, but the image evidence 
+is
+ []
+
+
+Underfull \hbox (badness 1810) in paragraph at lines 143--143
+[]\TU/ImperialSansText(0)/m/n/8 Use render consistency between live sonar and 3
+D
+ []
+
+[7
+
+]
+Underfull \hbox (badness 1097) in paragraph at lines 143--143
+[]\TU/ImperialSansText(0)/m/n/8 Sonar works underwater, but the image evidence 
+is
+ []
+
+
+Underfull \hbox (badness 1810) in paragraph at lines 143--143
+[]\TU/ImperialSansText(0)/m/n/8 Use render consistency between live sonar and 3
+D
+ []
+
+[8
+
+]
+Underfull \hbox (badness 1097) in paragraph at lines 143--143
+[]\TU/ImperialSansText(0)/m/n/8 Sonar works underwater, but the image evidence 
+is
+ []
+
+
+Underfull \hbox (badness 1810) in paragraph at lines 143--143
+[]\TU/ImperialSansText(0)/m/n/8 Use render consistency between live sonar and 3
+D
+ []
+
+[9
+
+] [10
+
+] [11
+
+] [12
+
+] [13
+
+]
+File: Images/fyp//nasgs_pipeline_overview.png Graphic file (type bmp)
+<Images/fyp//nasgs_pipeline_overview.png>
+
+Overfull \vbox (5.09157pt too high) detected at line 249
+ []
+
+[14
+
+]
+Underfull \hbox (badness 6252) in paragraph at lines 297--297
+[]\TU/ImperialSansText(0)/m/it/8 NAS-GS predicts what the sonar
+ []
+
+
+Underfull \hbox (badness 6641) in paragraph at lines 297--297
+\TU/ImperialSansText(0)/m/it/8 should observe from a proposed
+ []
+
+
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 297--297
 [][][]  
  []
 
 File: Images/fyp//slide_posegraph_sonar_map.png Graphic file (type bmp)
 <Images/fyp//slide_posegraph_sonar_map.png>
 
-Underfull \hbox (badness 10000) in paragraph at lines 239--239
-[]\TU/ImperialSansText(0)/m/n/8 A live sonar frame is compared
+Underfull \hbox (badness 10000) in paragraph at lines 297--297
+[]\TU/ImperialSansText(0)/m/it/8 A live sonar frame is compared
  []
 
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 239--239
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 297--297
 [][][]  
  []
 
 File: Images/fyp//slide_posegraph_live_sonar.png Graphic file (type bmp)
 <Images/fyp//slide_posegraph_live_sonar.png>
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 239--239
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 297--297
 [][][]  
  []
 
@@ -1246,26 +1340,112 @@ File: Images/fyp//slide_render_consistency_corrected_graph.png Graphic file (ty
 pe bmp)
 <Images/fyp//slide_render_consistency_corrected_graph.png>
 
-Overfull \vbox (7.15936pt too high) detected at line 239
+Overfull \vbox (7.15936pt too high) detected at line 297
  []
 
-[5
+[15
 
 ]
-Underfull \hbox (badness 2443) in paragraph at lines 284--284
+Underfull \hbox (badness 6252) in paragraph at lines 297--297
+[]\TU/ImperialSansText(0)/m/it/8 NAS-GS predicts what the sonar
+ []
+
+
+Underfull \hbox (badness 6641) in paragraph at lines 297--297
+\TU/ImperialSansText(0)/m/it/8 should observe from a proposed
+ []
+
+
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 297--297
+[][][]  
+ []
+
+File: Images/fyp//slide_posegraph_sonar_map.png Graphic file (type bmp)
+<Images/fyp//slide_posegraph_sonar_map.png>
+
+Underfull \hbox (badness 10000) in paragraph at lines 297--297
+[]\TU/ImperialSansText(0)/m/it/8 A live sonar frame is compared
+ []
+
+
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 297--297
+[][][]  
+ []
+
+File: Images/fyp//slide_posegraph_live_sonar.png Graphic file (type bmp)
+<Images/fyp//slide_posegraph_live_sonar.png>
+
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 297--297
+[][][]  
+ []
+
+File: Images/fyp//slide_render_consistency_corrected_graph.png Graphic file (ty
+pe bmp)
+<Images/fyp//slide_render_consistency_corrected_graph.png>
+
+Overfull \vbox (7.15936pt too high) detected at line 297
+ []
+
+[16
+
+]
+Underfull \hbox (badness 6252) in paragraph at lines 297--297
+[]\TU/ImperialSansText(0)/m/it/8 NAS-GS predicts what the sonar
+ []
+
+
+Underfull \hbox (badness 6641) in paragraph at lines 297--297
+\TU/ImperialSansText(0)/m/it/8 should observe from a proposed
+ []
+
+
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 297--297
+[][][]  
+ []
+
+File: Images/fyp//slide_posegraph_sonar_map.png Graphic file (type bmp)
+<Images/fyp//slide_posegraph_sonar_map.png>
+
+Underfull \hbox (badness 10000) in paragraph at lines 297--297
+[]\TU/ImperialSansText(0)/m/it/8 A live sonar frame is compared
+ []
+
+
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 297--297
+[][][]  
+ []
+
+File: Images/fyp//slide_posegraph_live_sonar.png Graphic file (type bmp)
+<Images/fyp//slide_posegraph_live_sonar.png>
+
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 297--297
+[][][]  
+ []
+
+File: Images/fyp//slide_render_consistency_corrected_graph.png Graphic file (ty
+pe bmp)
+<Images/fyp//slide_render_consistency_corrected_graph.png>
+
+Overfull \vbox (7.15936pt too high) detected at line 297
+ []
+
+[17
+
+]
+Underfull \hbox (badness 2443) in paragraph at lines 342--342
 []\TU/ImperialSansText(0)/m/it/8 Compact $[]\OML/cmm/m/it/8 ; []; [];  $ \TU/Im
 perialSansText(0)/m/it/8 search around the live Pose3
  []
 
-[6
+[18
 
-] [7
+] [19
 
 ]
 File: Images/fyp//slide_step2_random_rendered_sonar.png Graphic file (type bmp)
 
 <Images/fyp//slide_step2_random_rendered_sonar.png>
- [8
+ [20
 
 ]
 File: Images/fyp//slide_render_consistency_live_sonar.png Graphic file (type bm
@@ -1278,21 +1458,21 @@ File: Images/fyp//slide_score_reject_live.png Graphic file (type bmp)
 <Images/fyp//slide_score_reject_live.png>
 File: Images/fyp//slide_score_reject_render.png Graphic file (type bmp)
 <Images/fyp//slide_score_reject_render.png>
- [9
+ [21
 
 ]
-Underfull \hbox (badness 3375) in paragraph at lines 532--532
+Underfull \hbox (badness 3375) in paragraph at lines 590--590
 []\TU/ImperialSansText(0)/m/it/8 The graph contains IMU/DVL odometry
  []
 
 
-Underfull \hbox (badness 2368) in paragraph at lines 532--532
+Underfull \hbox (badness 2368) in paragraph at lines 590--590
 \TU/ImperialSansText(0)/m/it/8 factors, so drift accumulates along the
  []
 
-[10
+[22
 
-] [11
+] [23
 
 ]
 File: Images/fyp//dave_gazebo_scene_overview.jpg Graphic file (type bmp)
@@ -1301,7 +1481,7 @@ File: Images/fyp//dave_gazebo_target_scene.jpg Graphic file (type bmp)
 <Images/fyp//dave_gazebo_target_scene.jpg>
 File: Images/fyp//dave_gazebo_recording_vehicle.jpg Graphic file (type bmp)
 <Images/fyp//dave_gazebo_recording_vehicle.jpg>
- [12
+ [24
 
 ]
 File: Images/fyp//passA_passB_route_top_view_slidecrop.png Graphic file (type b
@@ -1310,60 +1490,60 @@ mp)
 File: Images/fyp//appendix_passA_recorded_sonar_contact_sheet.png Graphic file 
 (type bmp)
 <Images/fyp//appendix_passA_recorded_sonar_contact_sheet.png>
- [13
+ [25
 
 ]
 File: Images/fyp//passA_dave_vs_nasgs_sixpanel_slide.png Graphic file (type bmp
 )
 <Images/fyp//passA_dave_vs_nasgs_sixpanel_slide.png>
 
-Overfull \vbox (17.21904pt too high) detected at line 679
+Overfull \vbox (17.21904pt too high) detected at line 743
  []
 
-[14
+[26
 
 ]
-Underfull \hbox (badness 2012) in paragraph at lines 710--710
+Underfull \hbox (badness 2012) in paragraph at lines 774--774
 []|\TU/ImperialSansText(0)/m/it/7 Pass A 900k/i1000, PSNR
  []
 
 
-Underfull \hbox (badness 2012) in paragraph at lines 710--710
+Underfull \hbox (badness 2012) in paragraph at lines 774--774
 []|\TU/ImperialSansText(0)/m/it/7 Pass A 900k/i1000, PSNR
  []
 
 
-Underfull \hbox (badness 2012) in paragraph at lines 710--710
+Underfull \hbox (badness 2012) in paragraph at lines 774--774
 []|\TU/ImperialSansText(0)/m/it/7 Pass A 900k/i1000, PSNR
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 710--710
+Underfull \hbox (badness 10000) in paragraph at lines 774--774
 []|\TU/ImperialSansText(0)/m/it/7 Offshore 750k/i800, BP
  []
 
-[15
+[27
 
 ]
 File: Images/fyp//passA_bp_vs_nobp_online_render_comparison.png Graphic file (t
 ype bmp)
 <Images/fyp//passA_bp_vs_nobp_online_render_comparison.png>
- [16
+ [28
 
 ]
-Underfull \hbox (badness 4467) in paragraph at lines 749--749
+Underfull \hbox (badness 4467) in paragraph at lines 813--813
 []\TU/ImperialSansText(0)/m/it/8 Live sonar frame from the DAVE
  []
 
 File: Images/fyp//passA_evidence_live_frame216.png Graphic file (type bmp)
 <Images/fyp//passA_evidence_live_frame216.png>
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 749--749
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 813--813
 [][][] 
  []
 
 
-Underfull \hbox (badness 1838) in paragraph at lines 749--749
+Underfull \hbox (badness 1838) in paragraph at lines 813--813
 []\TU/ImperialSansText(0)/m/it/8 Reference image from the trained
  []
 
@@ -1371,7 +1551,7 @@ File: Images/fyp//passA_evidence_rendered_bp_frame216.png Graphic file (type bm
 p)
 <Images/fyp//passA_evidence_rendered_bp_frame216.png>
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 749--749
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 813--813
 [][][] 
  []
 
@@ -1379,33 +1559,46 @@ File: Images/fyp//passA_evidence_rendered_nobp_frame216.png Graphic file (type
 bmp)
 <Images/fyp//passA_evidence_rendered_nobp_frame216.png>
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 749--749
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 813--813
 [][][] 
  []
 
-[17
+[29
 
 ]
 File: Images/fyp//passA_current_online_render_3d_slidecrop.png Graphic file (ty
 pe bmp)
 <Images/fyp//passA_current_online_render_3d_slidecrop.png>
 
-Overfull \vbox (11.60638pt too high) detected at line 764
+Overfull \vbox (11.60638pt too high) detected at line 828
  []
 
-[18
+[30
+
+]
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 869--869
+[][][]  
+ []
+
+File: Images/fyp//offshore_real_frame216.png Graphic file (type bmp)
+<Images/fyp//offshore_real_frame216.png>
+File: Images/fyp//offshore_real_frame517.png Graphic file (type bmp)
+<Images/fyp//offshore_real_frame517.png>
+File: Images/fyp//offshore_real_frame864.png Graphic file (type bmp)
+<Images/fyp//offshore_real_frame864.png>
+[31
 
 ]
 File: Images/fyp//offshore_bp_vs_nobp_online_render_comparison.png Graphic file
  (type bmp)
 <Images/fyp//offshore_bp_vs_nobp_online_render_comparison.png>
- [19
+ [32
 
 ]
 File: Images/fyp//offshore_evidence_live_frame864.png Graphic file (type bmp)
 <Images/fyp//offshore_evidence_live_frame864.png>
 
-Overfull \hbox (0.73457pt too wide) in paragraph at lines 807--807
+Overfull \hbox (0.73457pt too wide) in paragraph at lines 912--912
 [][][] 
  []
 
@@ -1413,7 +1606,7 @@ File: Images/fyp//offshore_evidence_rendered_bp_frame864.png Graphic file (type
  bmp)
 <Images/fyp//offshore_evidence_rendered_bp_frame864.png>
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 807--807
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 912--912
 [][][] 
  []
 
@@ -1421,51 +1614,49 @@ File: Images/fyp//offshore_evidence_rendered_nobp_frame864.png Graphic file (ty
 pe bmp)
 <Images/fyp//offshore_evidence_rendered_nobp_frame864.png>
 
-Overfull \hbox (1.77025pt too wide) in paragraph at lines 807--807
+Overfull \hbox (1.77025pt too wide) in paragraph at lines 912--912
 [][][] 
  []
 
-[20
+[33
 
 ]
 File: Images/fyp//offshore_current_online_render_3d_slidecrop.png Graphic file 
 (type bmp)
 <Images/fyp//offshore_current_online_render_3d_slidecrop.png>
 
-Overfull \vbox (16.61583pt too high) detected at line 823
+Overfull \vbox (16.61583pt too high) detected at line 928
  []
 
-[21
+[34
 
 ]
 File: Images/fyp//passA_passA_revisit_baseline_overlay.png Graphic file (type b
 mp)
 <Images/fyp//passA_passA_revisit_baseline_overlay.png>
 
-Overfull \vbox (44.27426pt too high) detected at line 834
+Overfull \vbox (44.27426pt too high) detected at line 939
  []
 
-[22
+[35
 
 ]
 File: Images/fyp//route_progress_revisit_results.png Graphic file (type bmp)
 <Images/fyp//route_progress_revisit_results.png>
 
-Overfull \vbox (37.20401pt too high) detected at line 845
+Overfull \vbox (37.20401pt too high) detected at line 950
  []
 
-[23
+[36
 
-] [24
+] [37
 
-] [25
-
-] [26
+] [38
 
 ]
 File: Images//ICL_Logo_White.pdf Graphic file (type pdf)
 <use Images//ICL_Logo_White.pdf>
- [27
+ [39
 
 ]
 \tf@nav=\write6
@@ -1482,12 +1673,12 @@ Package rerunfilecheck Info: File `fyp_presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 27718 strings out of 478190
- 604824 string characters out of 5854827
- 932185 words of memory out of 5000000
- 47695 multiletter control sequences out of 15000+600000
- 475852 words of font info for 100 fonts, out of 8000000 for 9000
+ 27845 strings out of 478190
+ 607981 string characters out of 5854827
+ 936101 words of memory out of 5000000
+ 47806 multiletter control sequences out of 15000+600000
+ 477445 words of font info for 112 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 99i,13n,104p,405b,1094s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 99i,13n,104p,405b,1184s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on fyp_presentation.xdv (27 pages, 287064 bytes).
+Output written on fyp_presentation.xdv (39 pages, 471772 bytes).
